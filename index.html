@@ -1,0 +1,3160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta name="theme-color" content="#0879b9">
+
+<title>OW Monitoring</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  background: #eef4f7;
+  color: #17212b;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  width: 100%;
+  max-width: 560px;
+  min-height: 100vh;
+  margin: auto;
+  background: #eef4f7;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  padding:
+    calc(13px + env(safe-area-inset-top))
+    15px
+    14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0879b9,
+      #075b8d
+    );
+
+  color: white;
+
+  box-shadow:
+    0 3px 15px rgba(0,0,0,.16);
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  background:
+    rgba(255,255,255,.16);
+
+  font-size: 24px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.subtitle {
+  margin-top: 3px;
+  font-size: 11px;
+  opacity: .86;
+}
+
+/* =========================
+   ONLINE STATUS
+========================= */
+
+.connection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+  padding: 10px 12px;
+
+  background: white;
+
+  border: 1px solid #dce5ea;
+  border-radius: 12px;
+}
+
+.connection-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+
+  background: #8b969d;
+}
+
+.dot.online {
+  background: #19a457;
+}
+
+.dot.offline {
+  background: #df8a1a;
+}
+
+.update {
+  font-size: 9px;
+  color: #7a8992;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content {
+  padding: 13px 12px 30px;
+}
+
+.section-title {
+  margin: 4px 2px 8px;
+
+  font-size: 14px;
+  font-weight: 900;
+  color: #34434d;
+}
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 8px;
+
+  margin-bottom: 14px;
+}
+
+.summary-card {
+  min-height: 86px;
+
+  padding: 12px;
+
+  background: white;
+
+  border:
+    1px solid #dfe8ed;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 2px 7px rgba(0,0,0,.04);
+}
+
+.summary-label {
+  font-size: 9px;
+  font-weight: 900;
+  color: #72818b;
+}
+
+.summary-number {
+  margin-top: 5px;
+
+  font-size: 26px;
+  line-height: 1;
+
+  font-weight: 900;
+}
+
+.summary-desc {
+  margin-top: 5px;
+
+  font-size: 9px;
+  color: #89959d;
+}
+
+.blue {
+  color: #0879b9;
+}
+
+.green {
+  color: #159447;
+}
+
+.orange {
+  color: #c97811;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.search {
+  position: relative;
+
+  margin-bottom: 9px;
+}
+
+.search input {
+  width: 100%;
+  height: 46px;
+
+  padding:
+    0 14px 0 42px;
+
+  background: white;
+
+  border:
+    1px solid #dce5ea;
+
+  border-radius: 12px;
+
+  outline: none;
+
+  font-size: 13px;
+}
+
+.search-icon {
+  position: absolute;
+
+  left: 14px;
+  top: 50%;
+
+  transform:
+    translateY(-50%);
+
+  color: #74848e;
+}
+
+/* =========================
+   FILTER
+========================= */
+
+.filters {
+  display: flex;
+  gap: 7px;
+
+  overflow-x: auto;
+
+  padding:
+    2px 1px 8px;
+
+  scrollbar-width: none;
+}
+
+.filters::-webkit-scrollbar {
+  display: none;
+}
+
+.filter {
+  flex: 0 0 auto;
+
+  height: 35px;
+
+  padding:
+    0 12px;
+
+  border:
+    1px solid #d5e0e6;
+
+  background: white;
+
+  border-radius: 999px;
+
+  color: #56656f;
+
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.filter.active {
+  color: white;
+
+  background: #0879b9;
+
+  border-color: #0879b9;
+}
+
+/* =========================
+   LIST HEADER
+========================= */
+
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin:
+    7px 2px 9px;
+}
+
+.list-title {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.count {
+  margin-top: 2px;
+
+  font-size: 10px;
+  color: #7b8992;
+}
+
+.refresh {
+  width: 38px;
+  height: 38px;
+
+  border: 0;
+
+  border-radius: 11px;
+
+  background: white;
+
+  color: #0879b9;
+
+  font-size: 20px;
+
+  box-shadow:
+    0 2px 7px rgba(0,0,0,.06);
+}
+
+/* =========================
+   RECORDS
+========================= */
+
+.records {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.record {
+  padding: 13px;
+
+  background: white;
+
+  border:
+    1px solid #dfe8ed;
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 3px 9px rgba(0,0,0,.045);
+}
+
+.record-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ow {
+  color: #0879b9;
+
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.name {
+  margin-top: 3px;
+
+  max-width: 230px;
+
+  color: #65747e;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status {
+  height: fit-content;
+
+  padding:
+    6px 8px;
+
+  border-radius: 999px;
+
+  font-size: 8px;
+  font-weight: 900;
+
+  white-space: nowrap;
+}
+
+.s04 {
+  background: #e9f2ff;
+  color: #2368ae;
+}
+
+.s1620 {
+  background: #e6f7ed;
+  color: #148348;
+}
+
+.snone {
+  background: #fff3df;
+  color: #b66d0b;
+}
+
+.scheck {
+  background: #ffe8e8;
+  color: #b82f36;
+}
+
+.scomplete {
+  background: #e3f6e9;
+  color: #138346;
+}
+
+/* =========================
+   WATER
+========================= */
+
+.water {
+  margin-top: 9px;
+}
+
+.water-badge {
+  display: inline-block;
+
+  padding:
+    5px 8px;
+
+  border-radius: 7px;
+
+  font-size: 8px;
+  font-weight: 900;
+}
+
+.water-yes {
+  background: #e3f7ec;
+  color: #138347;
+}
+
+.water-no {
+  background: #fff0e1;
+  color: #bc6911;
+}
+
+.water-unknown {
+  background: #edf1f3;
+  color: #6d7a83;
+}
+
+/* =========================
+   READINGS
+========================= */
+
+.readings {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 8px;
+
+  margin-top: 10px;
+}
+
+.read-box {
+  padding: 10px;
+
+  background: #f5f8fa;
+
+  border:
+    1px solid #e6edf1;
+
+  border-radius: 10px;
+}
+
+.target-box {
+  background: #eef8fc;
+  border-color: #d8edf5;
+}
+
+.read-label {
+  font-size: 8px;
+  font-weight: 900;
+
+  color: #7c8a93;
+}
+
+.read-value {
+  margin-top: 4px;
+
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.target-box .read-value {
+  color: #0879b9;
+}
+
+/* =========================
+   CARD FOOT
+========================= */
+
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 9px;
+  padding-top: 9px;
+
+  border-top:
+    1px solid #edf1f3;
+}
+
+.latest {
+  font-size: 9px;
+  color: #7c8992;
+}
+
+.view {
+  min-height: 33px;
+
+  padding:
+    0 12px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: #0879b9;
+
+  color: white;
+
+  font-size: 9px;
+  font-weight: 900;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty {
+  padding: 32px 15px;
+
+  text-align: center;
+
+  background: white;
+
+  border-radius: 14px;
+
+  border: 1px solid #dfe8ed;
+
+  color: #7b8992;
+}
+
+.empty-icon {
+  font-size: 30px;
+  margin-bottom: 7px;
+}
+
+.empty-text {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================
+   DETAIL
+========================= */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 500;
+
+  display: none;
+
+  background:
+    rgba(8,22,31,.5);
+}
+
+.overlay.show {
+  display: block;
+}
+
+.panel {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  max-width: 560px;
+  margin: auto;
+
+  max-height: 92vh;
+
+  overflow-y: auto;
+
+  padding:
+    9px 12px
+    calc(20px + env(safe-area-inset-bottom));
+
+  background: #eef4f7;
+
+  border-radius:
+    20px 20px 0 0;
+}
+
+.handle {
+  width: 40px;
+  height: 5px;
+
+  margin:
+    3px auto 12px;
+
+  border-radius: 99px;
+
+  background: #cbd5da;
+}
+
+.detail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+}
+
+.detail-title {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.close {
+  width: 37px;
+  height: 37px;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  background: white;
+
+  color: #65737d;
+
+  font-size: 20px;
+}
+
+.detail-card {
+  margin-bottom: 9px;
+
+  padding: 12px;
+
+  background: white;
+
+  border:
+    1px solid #dfe8ed;
+
+  border-radius: 14px;
+}
+
+.detail-card-title {
+  margin-bottom: 9px;
+
+  color: #71808a;
+
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.detail-grid {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 7px;
+}
+
+.detail-box {
+  padding: 9px;
+
+  background: #f5f8fa;
+
+  border-radius: 9px;
+}
+
+.detail-label {
+  font-size: 8px;
+  font-weight: 800;
+  color: #7c8a93;
+}
+
+.detail-value {
+  margin-top: 4px;
+
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.history {
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, 1fr);
+
+  gap: 4px;
+}
+
+.history-box {
+  padding: 8px 2px;
+
+  text-align: center;
+
+  background: #f5f8fa;
+
+  border-radius: 8px;
+}
+
+.history-label {
+  font-size: 7px;
+  color: #7c8992;
+}
+
+.history-value {
+  margin-top: 3px;
+
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding: 8px 0;
+
+  border-bottom:
+    1px solid #edf1f3;
+}
+
+.info:last-child {
+  border-bottom: 0;
+}
+
+.info-label {
+  font-size: 9px;
+  color: #7b8992;
+}
+
+.info-value {
+  text-align: right;
+
+  max-width: 62%;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading {
+  padding: 30px;
+
+  text-align: center;
+
+  background: white;
+
+  border-radius: 14px;
+
+  color: #7a8992;
+}
+
+.spinner {
+  width: 23px;
+  height: 23px;
+
+  margin:
+    0 auto 9px;
+
+  border:
+    3px solid #dce8ed;
+
+  border-top-color: #0879b9;
+
+  border-radius: 50%;
+
+  animation:
+    spin .7s linear infinite;
+}
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+.error {
+  padding: 12px;
+
+  background: #fff0f0;
+
+  border:
+    1px solid #f0c9c9;
+
+  border-radius: 12px;
+
+  color: #a63138;
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+@media (min-width:700px) {
+
+  body {
+    background: #dce6eb;
+  }
+
+  .app {
+    box-shadow:
+      0 0 30px rgba(0,0,0,.08);
+  }
+
+  .content {
+    padding: 18px;
+  }
+
+  .summary {
+    grid-template-columns:
+      repeat(3,1fr);
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+
+  <div class="header-row">
+
+    <div class="logo">
+      💧
+    </div>
+
+    <div>
+
+      <div class="title">
+        OW Monitoring
+      </div>
+
+      <div class="subtitle">
+        Water Level & Irrigation Monitoring
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main class="content">
+
+  <!-- CONNECTION -->
+
+  <div class="connection">
+
+    <div class="connection-left">
+
+      <span
+        id="statusDot"
+        class="dot">
+      </span>
+
+      <span id="connectionText">
+        Connecting...
+      </span>
+
+    </div>
+
+    <div
+      id="updateText"
+      class="update">
+      --
+    </div>
+
+  </div>
+
+
+  <!-- SUMMARY -->
+
+  <div class="section-title">
+    Monitoring Summary
+  </div>
+
+  <div class="summary">
+
+    <div class="summary-card">
+
+      <div class="summary-label">
+        FOR MONITORING
+      </div>
+
+      <div
+        id="summaryMonitoring"
+        class="summary-number blue">
+        0
+      </div>
+
+      <div class="summary-desc">
+        Active records
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-label">
+        NEXT TARGET 0–4 CM
+      </div>
+
+      <div
+        id="summary04"
+        class="summary-number blue">
+        0
+      </div>
+
+      <div class="summary-desc">
+        Current read 16–20 cm
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-label">
+        NEXT TARGET 16–20 CM
+      </div>
+
+      <div
+        id="summary1620"
+        class="summary-number green">
+        0
+      </div>
+
+      <div class="summary-desc">
+        Current read 0–4 cm
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-label">
+        NO READING
+      </div>
+
+      <div
+        id="summaryNoReading"
+        class="summary-number orange">
+        0
+      </div>
+
+      <div class="summary-desc">
+        Waiting for data
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-label">
+        MAY PATUBIG
+      </div>
+
+      <div
+        id="summaryWaterYes"
+        class="summary-number blue">
+        0
+      </div>
+
+      <div class="summary-desc">
+        Water available
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-label">
+        WALANG PATUBIG
+      </div>
+
+      <div
+        id="summaryWaterNo"
+        class="summary-number orange">
+        0
+      </div>
+
+      <div class="summary-desc">
+        No water
+      </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-label">
+        COMPLETED
+      </div>
+
+      <div
+        id="summaryCompleted"
+        class="summary-number green">
+        0
+      </div>
+
+      <div class="summary-desc">
+        Compliant records
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- SEARCH -->
+
+  <div class="search">
+
+    <span class="search-icon">
+      🔎
+    </span>
+
+    <input
+      id="search"
+      type="search"
+      placeholder="Search OW number or name...">
+
+  </div>
+
+
+  <!-- FILTERS -->
+
+  <div class="filters">
+
+    <button
+      class="filter active"
+      data-filter="ALL">
+      ALL
+    </button>
+
+    <button
+      class="filter"
+      data-filter="TARGET_04">
+      0–4 CM
+    </button>
+
+    <button
+      class="filter"
+      data-filter="TARGET_1620">
+      16–20 CM
+    </button>
+
+    <button
+      class="filter"
+      data-filter="NO_READING">
+      NO READING
+    </button>
+
+    <button
+      class="filter"
+      data-filter="WATER_YES">
+      MAY PATUBIG
+    </button>
+
+    <button
+      class="filter"
+      data-filter="WATER_NO">
+      WALANG PATUBIG
+    </button>
+
+    <button
+      class="filter"
+      data-filter="CHECK">
+      CHECK
+    </button>
+
+    <button
+      class="filter"
+      data-filter="COMPLETED">
+      COMPLETED
+    </button>
+
+  </div>
+
+
+  <!-- RECORD HEADER -->
+
+  <div class="list-header">
+
+    <div>
+
+      <div class="list-title">
+        Water Level Records
+      </div>
+
+      <div
+        id="count"
+        class="count">
+        0 records
+      </div>
+
+    </div>
+
+    <button
+      id="refresh"
+      class="refresh">
+      ↻
+    </button>
+
+  </div>
+
+
+  <!-- RECORDS -->
+
+  <div
+    id="records"
+    class="records">
+
+    <div class="loading">
+
+      <div class="spinner"></div>
+
+      Loading records...
+
+    </div>
+
+  </div>
+
+</main>
+
+</div>
+
+
+<!-- DETAIL -->
+
+<div
+  id="overlay"
+  class="overlay">
+
+  <div class="panel">
+
+    <div class="handle"></div>
+
+    <div class="detail-head">
+
+      <div
+        id="detailTitle"
+        class="detail-title">
+        OW Details
+      </div>
+
+      <button
+        id="close"
+        class="close">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="detail-card">
+
+      <div class="detail-card-title">
+        WATER LEVEL
+      </div>
+
+      <div class="detail-grid">
+
+        <div class="detail-box">
+
+          <div class="detail-label">
+            CURRENT READ
+          </div>
+
+          <div
+            id="detailCurrent"
+            class="detail-value">
+            --
+          </div>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <div class="detail-label">
+            NEXT TARGET
+          </div>
+
+          <div
+            id="detailTarget"
+            class="detail-value">
+            --
+          </div>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <div class="detail-label">
+            STATUS
+          </div>
+
+          <div
+            id="detailStatus"
+            class="detail-value">
+            --
+          </div>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <div class="detail-label">
+            LATEST READING
+          </div>
+
+          <div
+            id="detailLatest"
+            class="detail-value">
+            --
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="detail-card">
+
+      <div class="detail-card-title">
+        READING HISTORY
+      </div>
+
+      <div class="history">
+
+        <div class="history-box">
+          <div class="history-label">1ST</div>
+          <div id="h1" class="history-value">--</div>
+        </div>
+
+        <div class="history-box">
+          <div class="history-label">2ND</div>
+          <div id="h2" class="history-value">--</div>
+        </div>
+
+        <div class="history-box">
+          <div class="history-label">3RD</div>
+          <div id="h3" class="history-value">--</div>
+        </div>
+
+        <div class="history-box">
+          <div class="history-label">4TH</div>
+          <div id="h4" class="history-value">--</div>
+        </div>
+
+        <div class="history-box">
+          <div class="history-label">5TH</div>
+          <div id="h5" class="history-value">--</div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="detail-card">
+
+      <div class="detail-card-title">
+        INFORMATION
+      </div>
+
+      <div class="info">
+
+        <div class="info-label">
+          Water Status
+        </div>
+
+        <div
+          id="detailWater"
+          class="info-value">
+          --
+        </div>
+
+      </div>
+
+
+      <div class="info">
+
+        <div class="info-label">
+          Rotation Schedule
+        </div>
+
+        <div
+          id="detailRotation"
+          class="info-value">
+          --
+        </div>
+
+      </div>
+
+
+      <div class="info">
+
+        <div class="info-label">
+          Irrigation Status
+        </div>
+
+        <div
+          id="detailIrrigation"
+          class="info-value">
+          --
+        </div>
+
+      </div>
+
+
+      <div class="info">
+
+        <div class="info-label">
+          Remarks
+        </div>
+
+        <div
+          id="detailRemarks"
+          class="info-value">
+          --
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbxzEhezj4q8QpoIf9O6tEN4tpPjU_UAB-wrscB9Pc60djF7zM-MT5q2GFk7OvrQyyGh/exec";
+
+
+/*
+  LOCAL STORAGE KEY
+
+  Dito ise-save ang latest successful
+  data para available kahit offline.
+*/
+
+const CACHE_KEY =
+  "OW_MONITORING_LAST_DATA_V1";
+
+const CACHE_TIME_KEY =
+  "OW_MONITORING_LAST_TIME_V1";
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let allRecords = [];
+
+let currentFilter = "ALL";
+
+let loading = false;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const recordsEl =
+  document.getElementById("records");
+
+const searchEl =
+  document.getElementById("search");
+
+const countEl =
+  document.getElementById("count");
+
+const refreshEl =
+  document.getElementById("refresh");
+
+const statusDot =
+  document.getElementById("statusDot");
+
+const connectionText =
+  document.getElementById("connectionText");
+
+const updateText =
+  document.getElementById("updateText");
+
+const overlay =
+  document.getElementById("overlay");
+
+
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
+
+function clean(value) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return "";
+
+  }
+
+  return String(value).trim();
+
+}
+
+
+function escapeHTML(value) {
+
+  return clean(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function numberValue(value) {
+
+  const text =
+    clean(value)
+      .replace(/[^\d.-]/g,"");
+
+  if (!text) {
+    return null;
+  }
+
+  const number =
+    parseFloat(text);
+
+  return Number.isFinite(number)
+    ? number
+    : null;
+
+}
+
+
+/* =========================================================
+   WATER LOGIC
+========================================================= */
+
+function getLogic(value) {
+
+  if (
+    value === "" ||
+    value === null ||
+    value === undefined
+  ) {
+
+    return {
+      category: "NO_READING",
+      status: "NO READING",
+      target: "WAITING FOR READING"
+    };
+
+  }
+
+
+  const number =
+    numberValue(value);
+
+
+  if (number === null) {
+
+    return {
+      category: "CHECK",
+      status: "CHECK READING",
+      target: "CHECK READING"
+    };
+
+  }
+
+
+  if (
+    number >= 0 &&
+    number <= 4
+  ) {
+
+    return {
+      category: "TARGET_1620",
+      status: "16–20 CM",
+      target: "16–20 cm"
+    };
+
+  }
+
+
+  if (
+    number >= 16 &&
+    number <= 20
+  ) {
+
+    return {
+      category: "TARGET_04",
+      status: "0–4 CM",
+      target: "0–4 cm"
+    };
+
+  }
+
+
+  return {
+    category: "CHECK",
+    status: "CHECK READING",
+    target: "CHECK READING"
+  };
+
+}
+
+
+/* =========================================================
+   COMPLETED
+========================================================= */
+
+function completed(remarks) {
+
+  const text =
+    clean(remarks)
+      .toUpperCase();
+
+
+  return (
+    text.includes("COMPLIANT") &&
+    !text.includes("NON-COMPLIANT")
+  );
+
+}
+
+
+/* =========================================================
+   WATER STATUS
+========================================================= */
+
+function waterStatus(record) {
+
+  const text = [
+
+    record["Water Status"],
+    record["Irrigation Status"],
+    record["Rotation Schedule"],
+    record["Remarks"]
+
+  ]
+    .map(clean)
+    .join(" ")
+    .toUpperCase();
+
+
+  if (
+    text.includes("NO WATER") ||
+    text.includes("WALANG PATUBIG") ||
+    text.includes("WALANG TUBIG")
+  ) {
+
+    return "NO_WATER";
+
+  }
+
+
+  if (
+    text.includes("WITH WATER") ||
+    text.includes("MAY PATUBIG") ||
+    text.includes("MAY TUBIG")
+  ) {
+
+    return "WITH_WATER";
+
+  }
+
+
+  return "UNKNOWN";
+
+}
+
+
+/* =========================================================
+   NORMALIZE
+========================================================= */
+
+function normalize(raw) {
+
+  const r = {
+
+    OW:
+      clean(
+        raw["OW"] ||
+        raw["OW NO."]
+      ),
+
+    Name:
+      clean(
+        raw["Name"] ||
+        raw["NAME"]
+      ),
+
+    "1st":
+      clean(raw["1st"]),
+
+    "2nd":
+      clean(raw["2nd"]),
+
+    "3rd":
+      clean(raw["3rd"]),
+
+    "4th":
+      clean(raw["4th"]),
+
+    "5th":
+      clean(raw["5th"]),
+
+    Remarks:
+      clean(raw["Remarks"]),
+
+    "Rotation Schedule":
+      clean(
+        raw["Rotation Schedule"]
+      ),
+
+    "Irrigation Status":
+      clean(
+        raw["Irrigation Status"]
+      ),
+
+    "Water Status":
+      clean(
+        raw["Water Status"]
+      )
+
+  };
+
+
+  let current = "";
+
+  let latest = "";
+
+
+  const columns = [
+    "5th",
+    "4th",
+    "3rd",
+    "2nd",
+    "1st"
+  ];
+
+
+  for (
+    const col of columns
+  ) {
+
+    if (
+      clean(r[col]) !== ""
+    ) {
+
+      current =
+        r[col];
+
+      latest =
+        col;
+
+      break;
+
+    }
+
+  }
+
+
+  const logic =
+    getLogic(current);
+
+
+  let category =
+    logic.category;
+
+  let status =
+    logic.status;
+
+  let target =
+    logic.target;
+
+
+  if (
+    completed(r.Remarks)
+  ) {
+
+    category =
+      "COMPLETED";
+
+    status =
+      "COMPLETED";
+
+  }
+
+
+  r["Current Water Level"] =
+    current;
+
+  r["Latest Reading Column"] =
+    latest;
+
+  r["Next Target"] =
+    target;
+
+  r["Status"] =
+    status;
+
+  r["Monitoring Category"] =
+    category;
+
+  r["Water Status"] =
+    waterStatus(r);
+
+
+  return r;
+
+}
+
+
+/* =========================================================
+   OFFLINE CACHE SAVE
+========================================================= */
+
+function saveOfflineData(data) {
+
+  try {
+
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify(data)
+    );
+
+    localStorage.setItem(
+      CACHE_TIME_KEY,
+      String(Date.now())
+    );
+
+  }
+
+  catch(error) {
+
+    console.warn(
+      "Offline cache failed:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   OFFLINE CACHE LOAD
+========================================================= */
+
+function loadOfflineData() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        CACHE_KEY
+      );
+
+
+    if (!saved) {
+
+      return false;
+
+    }
+
+
+    const data =
+      JSON.parse(saved);
+
+
+    if (
+      !Array.isArray(data)
+    ) {
+
+      return false;
+
+    }
+
+
+    allRecords =
+      data.map(normalize);
+
+
+    updateSummary();
+
+    render();
+
+
+    const savedTime =
+      localStorage.getItem(
+        CACHE_TIME_KEY
+      );
+
+
+    if (savedTime) {
+
+      const date =
+        new Date(
+          Number(savedTime)
+        );
+
+
+      updateText.textContent =
+        "Saved " +
+        date.toLocaleString(
+          "en-PH",
+          {
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+          }
+        );
+
+    }
+
+
+    return true;
+
+  }
+
+  catch(error) {
+
+    console.warn(
+      "Offline data error:",
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   CONNECTION DISPLAY
+========================================================= */
+
+function showOnline() {
+
+  statusDot.className =
+    "dot online";
+
+  connectionText.textContent =
+    "ONLINE";
+
+}
+
+
+function showOffline() {
+
+  statusDot.className =
+    "dot offline";
+
+  connectionText.textContent =
+    "OFFLINE";
+
+}
+
+
+/* =========================================================
+   LOAD ONLINE
+========================================================= */
+
+function loadOnline() {
+
+  if (loading) {
+    return;
+  }
+
+
+  if (
+    !WEB_APP_URL ||
+    WEB_APP_URL.includes(
+      "PASTE_YOUR"
+    )
+  ) {
+
+    const cached =
+      loadOfflineData();
+
+
+    if (cached) {
+
+      showOffline();
+
+      connectionText.textContent =
+        "OFFLINE • CACHED DATA";
+
+    }
+
+    else {
+
+      showOffline();
+
+      showError(
+        "Ilagay ang Apps Script /exec URL sa WEB_APP_URL."
+      );
+
+    }
+
+    return;
+
+  }
+
+
+  loading = true;
+
+
+  const callback =
+    "owCallback_" +
+    Date.now();
+
+
+  const script =
+    document.createElement("script");
+
+
+  let finished = false;
+
+
+  const timeout =
+    setTimeout(
+      () => {
+
+        if (finished) {
+          return;
+        }
+
+        finished = true;
+
+        loading = false;
+
+        script.remove();
+
+        /*
+          Kapag walang internet,
+          gamitin ang saved data.
+        */
+
+        const cached =
+          loadOfflineData();
+
+
+        if (cached) {
+
+          showOffline();
+
+          connectionText.textContent =
+            "OFFLINE • CACHED DATA";
+
+        }
+
+        else {
+
+          showOffline();
+
+          showError(
+            "Walang internet at wala pang saved data."
+          );
+
+        }
+
+      },
+      12000
+    );
+
+
+  window[callback] =
+    function(data) {
+
+      if (finished) {
+        return;
+      }
+
+
+      finished = true;
+
+      clearTimeout(timeout);
+
+      loading = false;
+
+
+      try {
+
+        let rows = [];
+
+
+        if (
+          Array.isArray(data)
+        ) {
+
+          rows = data;
+
+        }
+
+        else if (
+          data &&
+          Array.isArray(
+            data.records
+          )
+        ) {
+
+          rows =
+            data.records;
+
+        }
+
+        else if (
+          data &&
+          Array.isArray(
+            data.data
+          )
+        ) {
+
+          rows =
+            data.data;
+
+        }
+
+
+        if (!rows.length) {
+
+          throw new Error(
+            "No records"
+          );
+
+        }
+
+
+        /*
+          SAVE RAW DATA
+          BEFORE NORMALIZATION
+        */
+
+        saveOfflineData(
+          rows
+        );
+
+
+        allRecords =
+          rows
+            .map(normalize)
+            .filter(
+              r =>
+                r.OW ||
+                r.Name
+            );
+
+
+        showOnline();
+
+
+        updateText.textContent =
+          "Updated " +
+          new Date()
+            .toLocaleTimeString(
+              "en-PH",
+              {
+                hour: "2-digit",
+                minute: "2-digit"
+              }
+            );
+
+
+        updateSummary();
+
+        render();
+
+      }
+
+      catch(error) {
+
+        console.error(error);
+
+        const cached =
+          loadOfflineData();
+
+
+        if (cached) {
+
+          showOffline();
+
+          connectionText.textContent =
+            "OFFLINE • CACHED DATA";
+
+        }
+
+        else {
+
+          showOffline();
+
+          showError(
+            "Hindi ma-process ang records."
+          );
+
+        }
+
+      }
+
+
+      delete window[callback];
+
+      script.remove();
+
+    };
+
+
+  script.onerror =
+    function() {
+
+      if (finished) {
+        return;
+      }
+
+
+      finished = true;
+
+      clearTimeout(timeout);
+
+      loading = false;
+
+      script.remove();
+
+
+      const cached =
+        loadOfflineData();
+
+
+      if (cached) {
+
+        showOffline();
+
+        connectionText.textContent =
+          "OFFLINE • CACHED DATA";
+
+      }
+
+      else {
+
+        showOffline();
+
+        showError(
+          "Hindi ma-access ang online server."
+        );
+
+      }
+
+    };
+
+
+  const separator =
+    WEB_APP_URL.includes("?")
+      ? "&"
+      : "?";
+
+
+  script.src =
+    WEB_APP_URL +
+    separator +
+    "callback=" +
+    encodeURIComponent(callback) +
+    "&t=" +
+    Date.now();
+
+
+  document.body.appendChild(
+    script
+  );
+
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+function updateSummary() {
+
+  const active =
+    allRecords.filter(
+      r =>
+        r["Monitoring Category"] !==
+        "COMPLETED"
+    );
+
+
+  const completedRecords =
+    allRecords.filter(
+      r =>
+        r["Monitoring Category"] ===
+        "COMPLETED"
+    );
+
+
+  const c04 =
+    active.filter(
+      r =>
+        r["Monitoring Category"] ===
+        "TARGET_04"
+    ).length;
+
+
+  const c1620 =
+    active.filter(
+      r =>
+        r["Monitoring Category"] ===
+        "TARGET_1620"
+    ).length;
+
+
+  const noReading =
+    active.filter(
+      r =>
+        r["Monitoring Category"] ===
+        "NO_READING"
+    ).length;
+
+
+  const waterYes =
+    active.filter(
+      r =>
+        r["Water Status"] ===
+        "WITH_WATER"
+    ).length;
+
+
+  const waterNo =
+    active.filter(
+      r =>
+        r["Water Status"] ===
+        "NO_WATER"
+    ).length;
+
+
+  document.getElementById(
+    "summaryMonitoring"
+  ).textContent =
+    active.length;
+
+
+  document.getElementById(
+    "summary04"
+  ).textContent =
+    c04;
+
+
+  document.getElementById(
+    "summary1620"
+  ).textContent =
+    c1620;
+
+
+  document.getElementById(
+    "summaryNoReading"
+  ).textContent =
+    noReading;
+
+
+  document.getElementById(
+    "summaryWaterYes"
+  ).textContent =
+    waterYes;
+
+
+  document.getElementById(
+    "summaryWaterNo"
+  ).textContent =
+    waterNo;
+
+
+  document.getElementById(
+    "summaryCompleted"
+  ).textContent =
+    completedRecords.length;
+
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function filteredRecords() {
+
+  let data =
+    [...allRecords];
+
+
+  if (
+    currentFilter ===
+    "ALL"
+  ) {
+
+    data =
+      data.filter(
+        r =>
+          r["Monitoring Category"] !==
+          "COMPLETED"
+      );
+
+  }
+
+
+  else if (
+    currentFilter ===
+    "COMPLETED"
+  ) {
+
+    data =
+      data.filter(
+        r =>
+          r["Monitoring Category"] ===
+          "COMPLETED"
+      );
+
+  }
+
+
+  else if (
+    currentFilter ===
+    "WATER_YES"
+  ) {
+
+    data =
+      data.filter(
+        r =>
+          r["Monitoring Category"] !==
+          "COMPLETED" &&
+          r["Water Status"] ===
+          "WITH_WATER"
+      );
+
+  }
+
+
+  else if (
+    currentFilter ===
+    "WATER_NO"
+  ) {
+
+    data =
+      data.filter(
+        r =>
+          r["Monitoring Category"] !==
+          "COMPLETED" &&
+          r["Water Status"] ===
+          "NO_WATER"
+      );
+
+  }
+
+
+  else {
+
+    data =
+      data.filter(
+        r =>
+          r["Monitoring Category"] ===
+          currentFilter
+      );
+
+  }
+
+
+  const search =
+    clean(
+      searchEl.value
+    ).toLowerCase();
+
+
+  if (search) {
+
+    data =
+      data.filter(
+        r => {
+
+          const ow =
+            clean(r.OW)
+              .toLowerCase();
+
+          const name =
+            clean(r.Name)
+              .toLowerCase();
+
+
+          return (
+            ow.includes(search) ||
+            name.includes(search)
+          );
+
+        }
+      );
+
+  }
+
+
+  return data;
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render() {
+
+  const data =
+    filteredRecords();
+
+
+  countEl.textContent =
+    data.length +
+    (
+      data.length === 1
+        ? " record"
+        : " records"
+    );
+
+
+  if (!data.length) {
+
+    recordsEl.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          📋
+        </div>
+
+        <div class="empty-text">
+          No records found
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  recordsEl.innerHTML =
+    data
+      .map(
+        record =>
+          card(record)
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+function card(record) {
+
+  const category =
+    record["Monitoring Category"];
+
+
+  let statusClass =
+    "scheck";
+
+
+  if (
+    category ===
+    "TARGET_04"
+  ) {
+
+    statusClass =
+      "s04";
+
+  }
+
+  else if (
+    category ===
+    "TARGET_1620"
+  ) {
+
+    statusClass =
+      "s1620";
+
+  }
+
+  else if (
+    category ===
+    "NO_READING"
+  ) {
+
+    statusClass =
+      "snone";
+
+  }
+
+  else if (
+    category ===
+    "COMPLETED"
+  ) {
+
+    statusClass =
+      "scomplete";
+
+  }
+
+
+  let waterClass =
+    "water-unknown";
+
+  let waterText =
+    "WATER STATUS N/A";
+
+
+  if (
+    record["Water Status"] ===
+    "WITH_WATER"
+  ) {
+
+    waterClass =
+      "water-yes";
+
+    waterText =
+      "💧 MAY PATUBIG";
+
+  }
+
+
+  if (
+    record["Water Status"] ===
+    "NO_WATER"
+  ) {
+
+    waterClass =
+      "water-no";
+
+    waterText =
+      "⚠️ WALANG PATUBIG";
+
+  }
+
+
+  const index =
+    allRecords.indexOf(record);
+
+
+  const current =
+    clean(
+      record["Current Water Level"]
+    ) || "--";
+
+
+  return `
+
+    <div class="record">
+
+      <div class="record-top">
+
+        <div>
+
+          <div class="ow">
+            ${escapeHTML(
+              record.OW || "OW"
+            )}
+          </div>
+
+          <div class="name">
+            ${escapeHTML(
+              record.Name || "No name"
+            )}
+          </div>
+
+        </div>
+
+
+        <div
+          class="status ${statusClass}">
+
+          ${escapeHTML(
+            record.Status || "--"
+          )}
+
+        </div>
+
+      </div>
+
+
+      <div class="water">
+
+        <span
+          class="water-badge ${waterClass}">
+
+          ${waterText}
+
+        </span>
+
+      </div>
+
+
+      <div class="readings">
+
+        <div class="read-box">
+
+          <div class="read-label">
+            Current Read
+          </div>
+
+          <div class="read-value">
+
+            ${escapeHTML(current)}
+
+            ${
+              current !== "--"
+                ? " cm"
+                : ""
+            }
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="read-box target-box">
+
+          <div class="read-label">
+            Next Target
+          </div>
+
+          <div class="read-value">
+
+            ${escapeHTML(
+              record["Next Target"] ||
+              "--"
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="card-foot">
+
+        <div class="latest">
+
+          Latest:
+          <strong>
+            ${escapeHTML(
+              record["Latest Reading Column"] ||
+              "--"
+            )}
+          </strong>
+
+        </div>
+
+
+        <button
+          class="view"
+          onclick="openDetail(${index})">
+
+          View Details
+
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   DETAIL
+========================================================= */
+
+function openDetail(index) {
+
+  const r =
+    allRecords[index];
+
+
+  if (!r) {
+    return;
+  }
+
+
+  document.getElementById(
+    "detailTitle"
+  ).textContent =
+    (
+      r.OW || "OW"
+    ) +
+    " • " +
+    (
+      r.Name || ""
+    );
+
+
+  document.getElementById(
+    "detailCurrent"
+  ).textContent =
+    r["Current Water Level"]
+      ? r["Current Water Level"] +
+        " cm"
+      : "--";
+
+
+  document.getElementById(
+    "detailTarget"
+  ).textContent =
+    r["Next Target"] || "--";
+
+
+  document.getElementById(
+    "detailStatus"
+  ).textContent =
+    r["Status"] || "--";
+
+
+  document.getElementById(
+    "detailLatest"
+  ).textContent =
+    r["Latest Reading Column"] || "--";
+
+
+  document.getElementById(
+    "h1"
+  ).textContent =
+    r["1st"] || "--";
+
+
+  document.getElementById(
+    "h2"
+  ).textContent =
+    r["2nd"] || "--";
+
+
+  document.getElementById(
+    "h3"
+  ).textContent =
+    r["3rd"] || "--";
+
+
+  document.getElementById(
+    "h4"
+  ).textContent =
+    r["4th"] || "--";
+
+
+  document.getElementById(
+    "h5"
+  ).textContent =
+    r["5th"] || "--";
+
+
+  document.getElementById(
+    "detailWater"
+  ).textContent =
+    waterText(
+      r["Water Status"]
+    );
+
+
+  document.getElementById(
+    "detailRotation"
+  ).textContent =
+    r["Rotation Schedule"] ||
+    "--";
+
+
+  document.getElementById(
+    "detailIrrigation"
+  ).textContent =
+    r["Irrigation Status"] ||
+    "--";
+
+
+  document.getElementById(
+    "detailRemarks"
+  ).textContent =
+    r["Remarks"] ||
+    "--";
+
+
+  overlay.classList.add(
+    "show"
+  );
+
+  document.body.style.overflow =
+    "hidden";
+
+}
+
+
+function waterText(status) {
+
+  if (
+    status ===
+    "WITH_WATER"
+  ) {
+
+    return "💧 MAY PATUBIG";
+
+  }
+
+
+  if (
+    status ===
+    "NO_WATER"
+  ) {
+
+    return "⚠️ WALANG PATUBIG";
+
+  }
+
+
+  return "WATER STATUS N/A";
+
+}
+
+
+function closeDetail() {
+
+  overlay.classList.remove(
+    "show"
+  );
+
+  document.body.style.overflow =
+    "";
+
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+document
+  .querySelectorAll(".filter")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      function() {
+
+        document
+          .querySelectorAll(".filter")
+          .forEach(
+            b =>
+              b.classList.remove(
+                "active"
+              )
+          );
+
+
+        this.classList.add(
+          "active"
+        );
+
+
+        currentFilter =
+          this.dataset.filter;
+
+
+        render();
+
+      }
+    );
+
+  });
+
+
+searchEl.addEventListener(
+  "input",
+  render
+);
+
+
+refreshEl.addEventListener(
+  "click",
+  loadOnline
+);
+
+
+document
+  .getElementById("close")
+  .addEventListener(
+    "click",
+    closeDetail
+  );
+
+
+overlay.addEventListener(
+  "click",
+  function(e) {
+
+    if (
+      e.target === overlay
+    ) {
+
+      closeDetail();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   ONLINE / OFFLINE DETECTION
+========================================================= */
+
+window.addEventListener(
+  "online",
+  function() {
+
+    showOnline();
+
+    connectionText.textContent =
+      "ONLINE • SYNCING";
+
+    loadOnline();
+
+  }
+);
+
+
+window.addEventListener(
+  "offline",
+  function() {
+
+    showOffline();
+
+    connectionText.textContent =
+      "OFFLINE • CACHED DATA";
+
+    loadOfflineData();
+
+  }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+if (
+  navigator.onLine
+) {
+
+  loadOnline();
+
+}
+
+else {
+
+  const cached =
+    loadOfflineData();
+
+
+  showOffline();
+
+
+  if (!cached) {
+
+    showError(
+      "Offline ka pero wala pang saved monitoring data."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   AUTO SYNC
+========================================================= */
+
+setInterval(
+  function() {
+
+    if (
+      navigator.onLine
+    ) {
+
+      loadOnline();
+
+    }
+
+  },
+  60000
+);
+
+
+/* =========================================================
+   RETURN TO APP
+========================================================= */
+
+document.addEventListener(
+  "visibilitychange",
+  function() {
+
+    if (
+      document.visibilityState ===
+      "visible" &&
+      navigator.onLine
+    ) {
+
+      loadOnline();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+function showError(message) {
+
+  recordsEl.innerHTML = `
+
+    <div class="error">
+
+      <strong>
+        Connection Notice
+      </strong>
+
+      <br><br>
+
+      ${escapeHTML(message)}
+
+    </div>
+
+  `;
+
+}
+
+</script>
+
+</body>
+</html>
