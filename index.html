@@ -5,23 +5,57 @@
 
 <meta
   name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+>
 
-<meta name="theme-color" content="#0879b9">
+<meta name="theme-color" content="#1E81BD">
 
-<title>OW Monitoring</title>
+<title>OW Monitoring Portal</title>
 
 <style>
 
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+/* =========================================================
+   COMPANY COLOR PALETTE
+   ========================================================= */
+
+:root{
+  --blue:#1E81BD;
+  --light-blue:#ADD9F1;
+  --dark-gray:#71746E;
+  --gray:#A9ABA7;
+  --red:#AC2804;
+  --slate:#5B7283;
+
+  --green:#198754;
+
+  --bg:#F4F6F7;
+  --white:#FFFFFF;
+  --border:#DDE2E4;
+
+  --text:#26343D;
+  --muted:#707C83;
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
 html,
-body {
-  margin: 0;
-  padding: 0;
+body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+}
+
+body{
+  background:#DCE4E8;
+  color:var(--text);
   font-family:
     Inter,
     -apple-system,
@@ -29,863 +63,1000 @@ body {
     "Segoe UI",
     Arial,
     sans-serif;
-
-  background: #eef4f7;
-  color: #17212b;
 }
 
-button,
-input {
-  font: inherit;
+
+/* =========================================================
+   MAIN MOBILE APP
+   ========================================================= */
+
+.app{
+  width:100%;
+  max-width:620px;
+  min-height:100vh;
+  margin:auto;
+  background:var(--bg);
 }
 
-button {
-  cursor: pointer;
-}
 
-.app {
-  width: 100%;
-  max-width: 560px;
-  min-height: 100vh;
-  margin: auto;
-  background: #eef4f7;
-}
-
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+   ========================================================= */
 
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
 
-  padding:
-    calc(13px + env(safe-area-inset-top))
-    15px
-    14px;
+  background:#FFFFFF;
 
-  background:
-    linear-gradient(
-      135deg,
-      #0879b9,
-      #075b8d
-    );
-
-  color: white;
+  border-bottom:1px solid var(--border);
 
   box-shadow:
-    0 3px 15px rgba(0,0,0,.16);
+    0 2px 10px rgba(0,0,0,.05);
 }
 
-.header-row {
-  display: flex;
-  align-items: center;
-  gap: 11px;
+.head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:14px;
 }
 
-.logo {
-  width: 44px;
-  height: 44px;
+.logo{
+  width:48px;
+  height:48px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex:none;
 
-  border-radius: 13px;
+  border-radius:10px;
 
-  background:
-    rgba(255,255,255,.16);
+  background:var(--blue);
+  color:white;
 
-  font-size: 24px;
+  display:grid;
+  place-items:center;
+
+  font-size:24px;
 }
 
-.title {
-  font-size: 20px;
-  font-weight: 900;
+.company{
+  font-size:9px;
+  font-weight:900;
+
+  letter-spacing:.7px;
+
+  color:var(--dark-gray);
+
+  text-transform:uppercase;
 }
 
-.subtitle {
-  margin-top: 3px;
-  font-size: 11px;
-  opacity: .86;
+h1{
+  margin:3px 0;
+
+  color:var(--blue);
+
+  font-size:20px;
+  line-height:1.1;
 }
 
-/* =========================
-   ONLINE STATUS
-========================= */
+.sub{
+  color:var(--muted);
 
-.connection {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  margin-bottom: 12px;
-  padding: 10px 12px;
-
-  background: white;
-
-  border: 1px solid #dce5ea;
-  border-radius: 12px;
+  font-size:10px;
 }
 
-.connection-left {
-  display: flex;
-  align-items: center;
-  gap: 7px;
 
-  font-size: 11px;
-  font-weight: 800;
+/* =========================================================
+   CONNECTION STATUS
+   ========================================================= */
+
+.conn{
+  margin:
+    0 12px
+    12px;
+
+  padding:9px 11px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  background:#FFFFFF;
+
+  border:1px solid var(--border);
+
+  border-radius:9px;
 }
 
-.dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
+.dot{
+  width:9px;
+  height:9px;
 
-  background: #8b969d;
+  display:inline-block;
+
+  margin-right:6px;
+
+  border-radius:50%;
+
+  background:var(--gray);
 }
 
-.dot.online {
-  background: #19a457;
+.dot.on{
+  background:var(--green);
 }
 
-.dot.offline {
-  background: #df8a1a;
+.dot.off{
+  background:var(--red);
 }
 
-.update {
-  font-size: 9px;
-  color: #7a8992;
+.conntext{
+  font-size:10px;
+  font-weight:900;
+
+  color:var(--dark-gray);
 }
 
-/* =========================
-   CONTENT
-========================= */
+.cache{
+  font-size:9px;
+  color:var(--muted);
 
-.content {
-  padding: 13px 12px 30px;
+  text-align:right;
 }
 
-.section-title {
-  margin: 4px 2px 8px;
 
-  font-size: 14px;
-  font-weight: 900;
-  color: #34434d;
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+main{
+  padding:
+    14px
+    12px
+    30px;
 }
 
-/* =========================
-   SUMMARY
-========================= */
 
-.summary {
-  display: grid;
+/* =========================================================
+   SECTION TITLE
+   ========================================================= */
+
+.section{
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  margin:
+    3px 2px
+    8px;
+}
+
+.section b{
+  font-size:12px;
+  color:var(--dark-gray);
+
+  text-transform:uppercase;
+}
+
+.line{
+  height:1px;
+
+  flex:1;
+
+  background:var(--border);
+}
+
+
+/* =========================================================
+   SUMMARY CARDS
+   ========================================================= */
+
+.summary{
+  display:grid;
 
   grid-template-columns:
-    repeat(2, 1fr);
+    repeat(2,1fr);
 
-  gap: 8px;
+  gap:8px;
 
-  margin-bottom: 14px;
+  margin-bottom:12px;
 }
 
-.summary-card {
-  min-height: 86px;
+.sum{
+  position:relative;
 
-  padding: 12px;
+  min-height:86px;
 
-  background: white;
+  padding:12px;
+
+  overflow:hidden;
+
+  background:#FFFFFF;
+
+  border:1px solid var(--border);
+
+  border-radius:10px;
+}
+
+.sum:before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:4px;
+
+  background:var(--blue);
+}
+
+.sum.s2:before{
+  background:var(--slate);
+}
+
+.sum.s3:before{
+  background:var(--red);
+}
+
+.sum.s4:before{
+  background:var(--light-blue);
+}
+
+.sum.s5:before{
+  background:var(--dark-gray);
+}
+
+.lab{
+  font-size:8px;
+
+  font-weight:900;
+
+  letter-spacing:.3px;
+
+  color:var(--muted);
+}
+
+.num{
+  margin-top:5px;
+
+  font-size:27px;
+
+  font-weight:900;
+
+  color:var(--blue);
+}
+
+.s2 .num{
+  color:var(--slate);
+}
+
+.s3 .num{
+  color:var(--red);
+}
+
+.s5 .num{
+  color:var(--dark-gray);
+}
+
+.desc{
+  margin-top:4px;
+
+  font-size:9px;
+
+  color:var(--muted);
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.search{
+  position:relative;
+
+  margin-bottom:8px;
+}
+
+.search input{
+  width:100%;
+  height:46px;
+
+  padding:
+    0 12px
+    0 40px;
+
+  outline:none;
+
+  font-size:13px;
+
+  background:#FFFFFF;
 
   border:
-    1px solid #dfe8ed;
+    1px solid
+    var(--border);
 
-  border-radius: 14px;
+  border-radius:9px;
+}
+
+.search input:focus{
+  border-color:var(--blue);
 
   box-shadow:
-    0 2px 7px rgba(0,0,0,.04);
+    0 0 0 3px
+    rgba(30,129,189,.10);
 }
 
-.summary-label {
-  font-size: 9px;
-  font-weight: 900;
-  color: #72818b;
+.search span{
+  position:absolute;
+
+  left:13px;
+  top:13px;
 }
 
-.summary-number {
-  margin-top: 5px;
 
-  font-size: 26px;
-  line-height: 1;
+/* =========================================================
+   FILTERS
+   ========================================================= */
 
-  font-weight: 900;
-}
+.filters{
+  display:flex;
 
-.summary-desc {
-  margin-top: 5px;
+  gap:6px;
 
-  font-size: 9px;
-  color: #89959d;
-}
-
-.blue {
-  color: #0879b9;
-}
-
-.green {
-  color: #159447;
-}
-
-.orange {
-  color: #c97811;
-}
-
-/* =========================
-   SEARCH
-========================= */
-
-.search {
-  position: relative;
-
-  margin-bottom: 9px;
-}
-
-.search input {
-  width: 100%;
-  height: 46px;
+  overflow-x:auto;
 
   padding:
-    0 14px 0 42px;
+    1px 1px
+    7px;
 
-  background: white;
-
-  border:
-    1px solid #dce5ea;
-
-  border-radius: 12px;
-
-  outline: none;
-
-  font-size: 13px;
+  scrollbar-width:none;
 }
 
-.search-icon {
-  position: absolute;
-
-  left: 14px;
-  top: 50%;
-
-  transform:
-    translateY(-50%);
-
-  color: #74848e;
+.filters::-webkit-scrollbar{
+  display:none;
 }
 
-/* =========================
-   FILTER
-========================= */
-
-.filters {
-  display: flex;
-  gap: 7px;
-
-  overflow-x: auto;
-
-  padding:
-    2px 1px 8px;
-
-  scrollbar-width: none;
-}
-
-.filters::-webkit-scrollbar {
-  display: none;
-}
-
-.filter {
-  flex: 0 0 auto;
-
-  height: 35px;
+.filter{
+  min-height:34px;
 
   padding:
     0 12px;
 
+  white-space:nowrap;
+
+  background:#FFFFFF;
+
+  color:var(--dark-gray);
+
   border:
-    1px solid #d5e0e6;
+    1px solid
+    var(--border);
 
-  background: white;
+  border-radius:7px;
 
-  border-radius: 999px;
+  font-size:9px;
 
-  color: #56656f;
-
-  font-size: 10px;
-  font-weight: 900;
+  font-weight:900;
 }
 
-.filter.active {
-  color: white;
+.filter.active{
+  color:#FFFFFF;
 
-  background: #0879b9;
+  background:var(--blue);
 
-  border-color: #0879b9;
+  border-color:var(--blue);
 }
 
-/* =========================
+
+/* =========================================================
    LIST HEADER
-========================= */
+   ========================================================= */
 
-.list-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.listhead{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
 
   margin:
-    7px 2px 9px;
+    5px 2px
+    9px;
 }
 
-.list-title {
-  font-size: 14px;
-  font-weight: 900;
+.listtitle{
+  font-size:13px;
+
+  font-weight:900;
+
+  color:var(--dark-gray);
 }
 
-.count {
-  margin-top: 2px;
+.count{
+  margin-top:2px;
 
-  font-size: 10px;
-  color: #7b8992;
+  font-size:9px;
+
+  color:var(--muted);
 }
 
-.refresh {
-  width: 38px;
-  height: 38px;
+.refresh{
+  width:38px;
+  height:38px;
 
-  border: 0;
+  background:#FFFFFF;
 
-  border-radius: 11px;
-
-  background: white;
-
-  color: #0879b9;
-
-  font-size: 20px;
-
-  box-shadow:
-    0 2px 7px rgba(0,0,0,.06);
-}
-
-/* =========================
-   RECORDS
-========================= */
-
-.records {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.record {
-  padding: 13px;
-
-  background: white;
+  color:var(--blue);
 
   border:
-    1px solid #dfe8ed;
+    1px solid
+    var(--border);
 
-  border-radius: 15px;
+  border-radius:8px;
+
+  font-size:20px;
+}
+
+
+/* =========================================================
+   RECORD LIST
+   ========================================================= */
+
+.records{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:8px;
+}
+
+
+/* =========================================================
+   RECORD CARD
+   ========================================================= */
+
+.card{
+  padding:13px;
+
+  background:#FFFFFF;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:10px;
 
   box-shadow:
-    0 3px 9px rgba(0,0,0,.045);
+    0 2px 7px
+    rgba(0,0,0,.035);
 }
 
-.record-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
+.top{
+  display:flex;
+
+  justify-content:space-between;
+
+  gap:8px;
 }
 
-.ow {
-  color: #0879b9;
+.ow{
+  font-size:17px;
 
-  font-size: 17px;
-  font-weight: 900;
+  font-weight:900;
+
+  color:var(--blue);
 }
 
-.name {
-  margin-top: 3px;
+.name{
+  max-width:280px;
 
-  max-width: 230px;
+  margin-top:2px;
 
-  color: #65747e;
+  overflow:hidden;
 
-  font-size: 11px;
-  font-weight: 600;
+  white-space:nowrap;
 
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow:ellipsis;
+
+  font-size:11px;
+
+  color:var(--dark-gray);
 }
 
-.status {
-  height: fit-content;
 
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.badge,
+.water{
   padding:
     6px 8px;
 
-  border-radius: 999px;
+  white-space:nowrap;
 
-  font-size: 8px;
-  font-weight: 900;
+  border-radius:6px;
 
-  white-space: nowrap;
+  font-size:8px;
+
+  font-weight:900;
 }
 
-.s04 {
-  background: #e9f2ff;
-  color: #2368ae;
+.b04{
+  color:var(--blue);
+
+  background:#E8F3F9;
 }
 
-.s1620 {
-  background: #e6f7ed;
-  color: #148348;
+.b1620{
+  color:var(--dark-gray);
+
+  background:#EDF0EE;
 }
 
-.snone {
-  background: #fff3df;
-  color: #b66d0b;
+.bno{
+  color:var(--red);
+
+  background:#FCEDE9;
 }
 
-.scheck {
-  background: #ffe8e8;
-  color: #b82f36;
+.bcheck{
+  color:var(--slate);
+
+  background:#F0F2F2;
 }
 
-.scomplete {
-  background: #e3f6e9;
-  color: #138346;
+.bcomplete{
+  color:var(--dark-gray);
+
+  background:#EDEFEF;
 }
 
-/* =========================
-   WATER
-========================= */
 
-.water {
-  margin-top: 9px;
+/* =========================================================
+   WATER STATUS
+   ========================================================= */
+
+.waterrow{
+  margin-top:8px;
 }
 
-.water-badge {
-  display: inline-block;
+.wy{
+  color:var(--blue);
 
-  padding:
-    5px 8px;
-
-  border-radius: 7px;
-
-  font-size: 8px;
-  font-weight: 900;
+  background:#EAF5FA;
 }
 
-.water-yes {
-  background: #e3f7ec;
-  color: #138347;
+.wn{
+  color:var(--red);
+
+  background:#FCEDE9;
 }
 
-.water-no {
-  background: #fff0e1;
-  color: #bc6911;
+.wu{
+  color:var(--slate);
+
+  background:#F0F2F2;
 }
 
-.water-unknown {
-  background: #edf1f3;
-  color: #6d7a83;
-}
 
-/* =========================
-   READINGS
-========================= */
+/* =========================================================
+   CARD DATA
+   ========================================================= */
 
-.readings {
-  display: grid;
+.grid{
+  display:grid;
 
   grid-template-columns:
     1fr 1fr;
 
-  gap: 8px;
+  gap:7px;
 
-  margin-top: 10px;
+  margin-top:9px;
 }
 
-.read-box {
-  padding: 10px;
+.box{
+  padding:10px;
 
-  background: #f5f8fa;
+  background:#F5F7F8;
 
   border:
-    1px solid #e6edf1;
+    1px solid
+    #E5E9EA;
 
-  border-radius: 10px;
+  border-radius:7px;
 }
 
-.target-box {
-  background: #eef8fc;
-  border-color: #d8edf5;
+.target{
+  background:#EFF8FC;
+
+  border-color:#D8ECF6;
 }
 
-.read-label {
-  font-size: 8px;
-  font-weight: 900;
+.blabel{
+  font-size:8px;
 
-  color: #7c8a93;
+  color:var(--muted);
+
+  font-weight:900;
+
+  text-transform:uppercase;
 }
 
-.read-value {
-  margin-top: 4px;
+.value{
+  margin-top:4px;
 
-  font-size: 18px;
-  font-weight: 900;
+  font-size:18px;
+
+  font-weight:900;
 }
 
-.target-box .read-value {
-  color: #0879b9;
+.target .value{
+  color:var(--blue);
 }
 
-/* =========================
+
+/* =========================================================
    CARD FOOT
-========================= */
+   ========================================================= */
 
-.card-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.foot{
+  display:flex;
 
-  margin-top: 9px;
-  padding-top: 9px;
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:8px;
+
+  margin-top:9px;
+
+  padding-top:9px;
 
   border-top:
-    1px solid #edf1f3;
+    1px solid
+    #ECEEEE;
 }
 
-.latest {
-  font-size: 9px;
-  color: #7c8992;
+.latest{
+  font-size:9px;
+
+  color:var(--muted);
 }
 
-.view {
-  min-height: 33px;
+.latest strong{
+  color:var(--dark-gray);
+}
+
+.details{
+  min-height:32px;
 
   padding:
-    0 12px;
+    0 11px;
 
-  border: 0;
+  background:var(--blue);
 
-  border-radius: 8px;
+  color:#FFFFFF;
 
-  background: #0879b9;
+  border:0;
 
-  color: white;
+  border-radius:6px;
 
-  font-size: 9px;
-  font-weight: 900;
+  font-size:9px;
+
+  font-weight:900;
 }
 
-/* =========================
-   EMPTY
-========================= */
 
-.empty {
-  padding: 32px 15px;
+/* =========================================================
+   LOADING / EMPTY / ERROR
+   ========================================================= */
 
-  text-align: center;
+.empty,
+.loading,
+.error{
+  padding:30px 15px;
 
-  background: white;
+  text-align:center;
 
-  border-radius: 14px;
-
-  border: 1px solid #dfe8ed;
-
-  color: #7b8992;
-}
-
-.empty-icon {
-  font-size: 30px;
-  margin-bottom: 7px;
-}
-
-.empty-text {
-  font-size: 12px;
-  font-weight: 700;
-}
-
-/* =========================
-   DETAIL
-========================= */
-
-.overlay {
-  position: fixed;
-  inset: 0;
-
-  z-index: 500;
-
-  display: none;
-
-  background:
-    rgba(8,22,31,.5);
-}
-
-.overlay.show {
-  display: block;
-}
-
-.panel {
-  position: absolute;
-
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  max-width: 560px;
-  margin: auto;
-
-  max-height: 92vh;
-
-  overflow-y: auto;
-
-  padding:
-    9px 12px
-    calc(20px + env(safe-area-inset-bottom));
-
-  background: #eef4f7;
-
-  border-radius:
-    20px 20px 0 0;
-}
-
-.handle {
-  width: 40px;
-  height: 5px;
-
-  margin:
-    3px auto 12px;
-
-  border-radius: 99px;
-
-  background: #cbd5da;
-}
-
-.detail-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  margin-bottom: 10px;
-}
-
-.detail-title {
-  font-size: 18px;
-  font-weight: 900;
-}
-
-.close {
-  width: 37px;
-  height: 37px;
-
-  border: 0;
-
-  border-radius: 50%;
-
-  background: white;
-
-  color: #65737d;
-
-  font-size: 20px;
-}
-
-.detail-card {
-  margin-bottom: 9px;
-
-  padding: 12px;
-
-  background: white;
+  background:#FFFFFF;
 
   border:
-    1px solid #dfe8ed;
+    1px solid
+    var(--border);
 
-  border-radius: 14px;
+  border-radius:10px;
+
+  color:var(--muted);
+
+  font-size:10px;
 }
 
-.detail-card-title {
-  margin-bottom: 9px;
+.error{
+  color:var(--red);
 
-  color: #71808a;
+  background:#FCEDE9;
 
-  font-size: 9px;
-  font-weight: 900;
+  text-align:left;
 }
 
-.detail-grid {
-  display: grid;
+.spinner{
+  width:23px;
+  height:23px;
+
+  margin:
+    0 auto
+    9px;
+
+  border:
+    3px solid
+    #DCE5E9;
+
+  border-top-color:var(--blue);
+
+  border-radius:50%;
+
+  animation:
+    spin .7s
+    linear infinite;
+}
+
+@keyframes spin{
+
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
+
+/* =========================================================
+   DETAIL MODAL
+   ========================================================= */
+
+.overlay{
+  display:none;
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:50;
+
+  background:
+    rgba(25,35,40,.50);
+}
+
+.overlay.show{
+  display:block;
+}
+
+.panel{
+  position:absolute;
+
+  bottom:0;
+  left:0;
+  right:0;
+
+  max-width:620px;
+
+  max-height:93vh;
+
+  overflow:auto;
+
+  margin:auto;
+
+  padding:
+    8px
+    12px
+    25px;
+
+  background:var(--bg);
+
+  border-radius:
+    16px
+    16px
+    0
+    0;
+}
+
+.handle{
+  width:40px;
+  height:4px;
+
+  margin:
+    3px auto
+    12px;
+
+  background:var(--gray);
+
+  border-radius:99px;
+}
+
+.dhead{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  margin-bottom:9px;
+}
+
+.dtitle{
+  font-size:17px;
+
+  font-weight:900;
+
+  color:var(--dark-gray);
+}
+
+.close{
+  width:36px;
+  height:36px;
+
+  background:#FFFFFF;
+
+  color:var(--dark-gray);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:50%;
+
+  font-size:19px;
+}
+
+.dcard{
+  margin-bottom:8px;
+
+  padding:12px;
+
+  background:#FFFFFF;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:9px;
+}
+
+.dct{
+  margin-bottom:9px;
+
+  font-size:8px;
+
+  color:var(--muted);
+
+  font-weight:900;
+
+  text-transform:uppercase;
+}
+
+.dgrid{
+  display:grid;
 
   grid-template-columns:
     1fr 1fr;
 
-  gap: 7px;
+  gap:7px;
 }
 
-.detail-box {
-  padding: 9px;
+.dbox{
+  padding:9px;
 
-  background: #f5f8fa;
+  background:#F5F7F8;
 
-  border-radius: 9px;
+  border-radius:7px;
 }
 
-.detail-label {
-  font-size: 8px;
-  font-weight: 800;
-  color: #7c8a93;
+.dlab{
+  font-size:8px;
+
+  color:var(--muted);
+
+  font-weight:900;
 }
 
-.detail-value {
-  margin-top: 4px;
+.dval{
+  margin-top:4px;
 
-  font-size: 16px;
-  font-weight: 900;
+  font-size:16px;
+
+  font-weight:900;
 }
 
-.history {
-  display: grid;
+.history{
+  display:grid;
 
   grid-template-columns:
-    repeat(5, 1fr);
+    repeat(5,1fr);
 
-  gap: 4px;
+  gap:4px;
 }
 
-.history-box {
-  padding: 8px 2px;
+.hbox{
+  padding:8px 2px;
 
-  text-align: center;
+  text-align:center;
 
-  background: #f5f8fa;
+  background:#F5F7F8;
 
-  border-radius: 8px;
+  border-radius:6px;
 }
 
-.history-label {
-  font-size: 7px;
-  color: #7c8992;
+.hlab{
+  font-size:7px;
+
+  color:var(--muted);
+
+  font-weight:900;
 }
 
-.history-value {
-  margin-top: 3px;
+.hval{
+  margin-top:3px;
 
-  font-size: 12px;
-  font-weight: 900;
+  font-size:12px;
+
+  font-weight:900;
+
+  color:var(--dark-gray);
 }
 
-.info {
-  display: flex;
-  justify-content: space-between;
+.irow{
+  display:flex;
 
-  gap: 12px;
+  justify-content:space-between;
 
-  padding: 8px 0;
+  gap:12px;
+
+  padding:8px 0;
 
   border-bottom:
-    1px solid #edf1f3;
+    1px solid
+    #ECEEEE;
 }
 
-.info:last-child {
-  border-bottom: 0;
+.irow:last-child{
+  border:0;
 }
 
-.info-label {
-  font-size: 9px;
-  color: #7b8992;
+.ilab{
+  font-size:9px;
+
+  color:var(--muted);
 }
 
-.info-value {
-  text-align: right;
+.ival{
+  max-width:63%;
 
-  max-width: 62%;
+  text-align:right;
 
-  font-size: 10px;
-  font-weight: 800;
+  font-size:10px;
+
+  font-weight:800;
+
+  color:var(--dark-gray);
 }
 
-/* =========================
-   LOADING
-========================= */
 
-.loading {
-  padding: 30px;
+/* =========================================================
+   LARGER SCREEN
+   ========================================================= */
 
-  text-align: center;
+@media(min-width:700px){
 
-  background: white;
-
-  border-radius: 14px;
-
-  color: #7a8992;
-}
-
-.spinner {
-  width: 23px;
-  height: 23px;
-
-  margin:
-    0 auto 9px;
-
-  border:
-    3px solid #dce8ed;
-
-  border-top-color: #0879b9;
-
-  border-radius: 50%;
-
-  animation:
-    spin .7s linear infinite;
-}
-
-@keyframes spin {
-
-  to {
-    transform: rotate(360deg);
-  }
-
-}
-
-.error {
-  padding: 12px;
-
-  background: #fff0f0;
-
-  border:
-    1px solid #f0c9c9;
-
-  border-radius: 12px;
-
-  color: #a63138;
-
-  font-size: 11px;
-  line-height: 1.5;
-}
-
-@media (min-width:700px) {
-
-  body {
-    background: #dce6eb;
-  }
-
-  .app {
+  .app{
     box-shadow:
-      0 0 30px rgba(0,0,0,.08);
+      0 0 35px
+      rgba(0,0,0,.08);
   }
 
-  .content {
-    padding: 18px;
-  }
-
-  .summary {
+  .summary{
     grid-template-columns:
       repeat(3,1fr);
   }
@@ -895,13 +1066,19 @@ button {
 </style>
 </head>
 
+
 <body>
 
 <div class="app">
 
-<header class="header">
 
-  <div class="header-row">
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
+<header>
+
+  <div class="head">
 
     <div class="logo">
       💧
@@ -909,11 +1086,15 @@ button {
 
     <div>
 
-      <div class="title">
-        OW Monitoring
+      <div class="company">
+        AGRICULTURAL WATER MONITORING SYSTEM
       </div>
 
-      <div class="subtitle">
+      <h1>
+        OW Monitoring Portal
+      </h1>
+
+      <div class="sub">
         Water Level & Irrigation Monitoring
       </div>
 
@@ -921,172 +1102,211 @@ button {
 
   </div>
 
-</header>
-
-
-<main class="content">
 
   <!-- CONNECTION -->
 
-  <div class="connection">
+  <div class="conn">
 
-    <div class="connection-left">
+    <div>
 
       <span
-        id="statusDot"
-        class="dot">
-      </span>
+        id="dot"
+        class="dot"
+      ></span>
 
-      <span id="connectionText">
-        Connecting...
+      <span
+        id="connText"
+        class="conntext"
+      >
+        CONNECTING...
       </span>
 
     </div>
 
     <div
-      id="updateText"
-      class="update">
-      --
+      id="cache"
+      class="cache"
+    >
+      No cached data
     </div>
 
   </div>
 
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+
+<main>
+
 
   <!-- SUMMARY -->
 
-  <div class="section-title">
-    Monitoring Summary
+  <div class="section">
+
+    <b>
+      Monitoring Summary
+    </b>
+
+    <div class="line"></div>
+
   </div>
+
 
   <div class="summary">
 
-    <div class="summary-card">
 
-      <div class="summary-label">
+    <!-- MONITORING -->
+
+    <div class="sum">
+
+      <div class="lab">
         FOR MONITORING
       </div>
 
       <div
-        id="summaryMonitoring"
-        class="summary-number blue">
+        id="sMonitoring"
+        class="num"
+      >
         0
       </div>
 
-      <div class="summary-desc">
+      <div class="desc">
         Active records
       </div>
 
     </div>
 
 
-    <div class="summary-card">
+    <!-- TARGET 0-4 -->
 
-      <div class="summary-label">
+    <div class="sum">
+
+      <div class="lab">
         NEXT TARGET 0–4 CM
       </div>
 
       <div
-        id="summary04"
-        class="summary-number blue">
+        id="s04"
+        class="num"
+      >
         0
       </div>
 
-      <div class="summary-desc">
+      <div class="desc">
         Current read 16–20 cm
       </div>
 
     </div>
 
 
-    <div class="summary-card">
+    <!-- TARGET 16-20 -->
 
-      <div class="summary-label">
+    <div class="sum s2">
+
+      <div class="lab">
         NEXT TARGET 16–20 CM
       </div>
 
       <div
-        id="summary1620"
-        class="summary-number green">
+        id="s1620"
+        class="num"
+      >
         0
       </div>
 
-      <div class="summary-desc">
+      <div class="desc">
         Current read 0–4 cm
       </div>
 
     </div>
 
 
-    <div class="summary-card">
+    <!-- NO READING -->
 
-      <div class="summary-label">
+    <div class="sum s3">
+
+      <div class="lab">
         NO READING
       </div>
 
       <div
-        id="summaryNoReading"
-        class="summary-number orange">
+        id="sNo"
+        class="num"
+      >
         0
       </div>
 
-      <div class="summary-desc">
-        Waiting for data
+      <div class="desc">
+        Waiting for monitoring
       </div>
 
     </div>
 
 
-    <div class="summary-card">
+    <!-- MAY PATUBIG -->
 
-      <div class="summary-label">
+    <div class="sum s4">
+
+      <div class="lab">
         MAY PATUBIG
       </div>
 
       <div
-        id="summaryWaterYes"
-        class="summary-number blue">
+        id="sYes"
+        class="num"
+      >
         0
       </div>
 
-      <div class="summary-desc">
+      <div class="desc">
         Water available
       </div>
 
     </div>
 
 
-    <div class="summary-card">
+    <!-- WALANG PATUBIG -->
 
-      <div class="summary-label">
+    <div class="sum s3">
+
+      <div class="lab">
         WALANG PATUBIG
       </div>
 
       <div
-        id="summaryWaterNo"
-        class="summary-number orange">
+        id="sNoWater"
+        class="num"
+      >
         0
       </div>
 
-      <div class="summary-desc">
+      <div class="desc">
         No water
       </div>
 
     </div>
 
 
-    <div class="summary-card">
+    <!-- COMPLETED -->
 
-      <div class="summary-label">
+    <div class="sum s5">
+
+      <div class="lab">
         COMPLETED
       </div>
 
       <div
-        id="summaryCompleted"
-        class="summary-number green">
+        id="sComplete"
+        class="num"
+      >
         0
       </div>
 
-      <div class="summary-desc">
+      <div class="desc">
         Compliant records
       </div>
 
@@ -1095,408 +1315,496 @@ button {
   </div>
 
 
+
   <!-- SEARCH -->
 
   <div class="search">
 
-    <span class="search-icon">
+    <span>
       🔎
     </span>
 
     <input
       id="search"
       type="search"
-      placeholder="Search OW number or name...">
+      placeholder="Search OW number or name..."
+      autocomplete="off"
+    >
 
   </div>
 
 
+
   <!-- FILTERS -->
 
-  <div class="filters">
+  <div
+    id="filters"
+    class="filters"
+  >
 
     <button
       class="filter active"
-      data-filter="ALL">
+      data-filter="ALL"
+    >
       ALL
     </button>
 
     <button
       class="filter"
-      data-filter="TARGET_04">
+      data-filter="TARGET_04"
+    >
       0–4 CM
     </button>
 
     <button
       class="filter"
-      data-filter="TARGET_1620">
+      data-filter="TARGET_1620"
+    >
       16–20 CM
     </button>
 
     <button
       class="filter"
-      data-filter="NO_READING">
+      data-filter="NO_READING"
+    >
       NO READING
     </button>
 
     <button
       class="filter"
-      data-filter="WATER_YES">
+      data-filter="WATER_YES"
+    >
       MAY PATUBIG
     </button>
 
     <button
       class="filter"
-      data-filter="WATER_NO">
+      data-filter="WATER_NO"
+    >
       WALANG PATUBIG
     </button>
 
     <button
       class="filter"
-      data-filter="CHECK">
+      data-filter="CHECK"
+    >
       CHECK
     </button>
 
     <button
       class="filter"
-      data-filter="COMPLETED">
+      data-filter="COMPLETED"
+    >
       COMPLETED
     </button>
 
   </div>
 
 
-  <!-- RECORD HEADER -->
 
-  <div class="list-header">
+  <!-- LIST HEADER -->
+
+  <div class="listhead">
 
     <div>
 
-      <div class="list-title">
+      <div class="listtitle">
         Water Level Records
       </div>
 
       <div
         id="count"
-        class="count">
+        class="count"
+      >
         0 records
       </div>
 
     </div>
 
+
     <button
       id="refresh"
-      class="refresh">
+      class="refresh"
+      title="Refresh"
+    >
       ↻
     </button>
 
   </div>
 
 
+
   <!-- RECORDS -->
 
   <div
     id="records"
-    class="records">
+    class="records"
+  >
 
     <div class="loading">
 
       <div class="spinner"></div>
 
-      Loading records...
+      Loading monitoring records...
 
     </div>
 
   </div>
+
 
 </main>
 
 </div>
 
 
-<!-- DETAIL -->
+
+<!-- =====================================================
+     DETAIL MODAL
+     ===================================================== -->
 
 <div
   id="overlay"
-  class="overlay">
+  class="overlay"
+>
 
   <div class="panel">
 
+
     <div class="handle"></div>
 
-    <div class="detail-head">
+
+    <div class="dhead">
 
       <div
-        id="detailTitle"
-        class="detail-title">
+        id="dtitle"
+        class="dtitle"
+      >
         OW Details
       </div>
 
       <button
         id="close"
-        class="close">
+        class="close"
+      >
         ×
       </button>
 
     </div>
 
 
-    <div class="detail-card">
+    <!-- WATER LEVEL -->
 
-      <div class="detail-card-title">
-        WATER LEVEL
+    <div class="dcard">
+
+      <div class="dct">
+        Water Level
       </div>
 
-      <div class="detail-grid">
 
-        <div class="detail-box">
+      <div class="dgrid">
 
-          <div class="detail-label">
+
+        <div class="dbox">
+
+          <div class="dlab">
             CURRENT READ
           </div>
 
           <div
-            id="detailCurrent"
-            class="detail-value">
+            id="dCurrent"
+            class="dval"
+          >
             --
           </div>
 
         </div>
 
 
-        <div class="detail-box">
+        <div class="dbox">
 
-          <div class="detail-label">
+          <div class="dlab">
             NEXT TARGET
           </div>
 
           <div
-            id="detailTarget"
-            class="detail-value">
+            id="dTarget"
+            class="dval"
+          >
             --
           </div>
 
         </div>
 
 
-        <div class="detail-box">
+        <div class="dbox">
 
-          <div class="detail-label">
+          <div class="dlab">
             STATUS
           </div>
 
           <div
-            id="detailStatus"
-            class="detail-value">
+            id="dStatus"
+            class="dval"
+          >
             --
           </div>
 
         </div>
 
 
-        <div class="detail-box">
+        <div class="dbox">
 
-          <div class="detail-label">
+          <div class="dlab">
             LATEST READING
           </div>
 
           <div
-            id="detailLatest"
-            class="detail-value">
+            id="dLatest"
+            class="dval"
+          >
             --
           </div>
 
         </div>
 
+
       </div>
 
     </div>
 
 
-    <div class="detail-card">
 
-      <div class="detail-card-title">
-        READING HISTORY
+    <!-- HISTORY -->
+
+    <div class="dcard">
+
+      <div class="dct">
+        Reading History
       </div>
+
 
       <div class="history">
 
-        <div class="history-box">
-          <div class="history-label">1ST</div>
-          <div id="h1" class="history-value">--</div>
+
+        <div class="hbox">
+
+          <div class="hlab">
+            1ST
+          </div>
+
+          <div
+            id="h1"
+            class="hval"
+          >
+            --
+          </div>
+
         </div>
 
-        <div class="history-box">
-          <div class="history-label">2ND</div>
-          <div id="h2" class="history-value">--</div>
+
+        <div class="hbox">
+
+          <div class="hlab">
+            2ND
+          </div>
+
+          <div
+            id="h2"
+            class="hval"
+          >
+            --
+          </div>
+
         </div>
 
-        <div class="history-box">
-          <div class="history-label">3RD</div>
-          <div id="h3" class="history-value">--</div>
+
+        <div class="hbox">
+
+          <div class="hlab">
+            3RD
+          </div>
+
+          <div
+            id="h3"
+            class="hval"
+          >
+            --
+          </div>
+
         </div>
 
-        <div class="history-box">
-          <div class="history-label">4TH</div>
-          <div id="h4" class="history-value">--</div>
+
+        <div class="hbox">
+
+          <div class="hlab">
+            4TH
+          </div>
+
+          <div
+            id="h4"
+            class="hval"
+          >
+            --
+          </div>
+
         </div>
 
-        <div class="history-box">
-          <div class="history-label">5TH</div>
-          <div id="h5" class="history-value">--</div>
+
+        <div class="hbox">
+
+          <div class="hlab">
+            5TH
+          </div>
+
+          <div
+            id="h5"
+            class="hval"
+          >
+            --
+          </div>
+
         </div>
+
 
       </div>
 
     </div>
 
 
-    <div class="detail-card">
 
-      <div class="detail-card-title">
-        INFORMATION
+    <!-- INFORMATION -->
+
+    <div class="dcard">
+
+      <div class="dct">
+        Monitoring Information
       </div>
 
-      <div class="info">
 
-        <div class="info-label">
+      <div class="irow">
+
+        <div class="ilab">
           Water Status
         </div>
 
         <div
-          id="detailWater"
-          class="info-value">
+          id="dWater"
+          class="ival"
+        >
           --
         </div>
 
       </div>
 
 
-      <div class="info">
+      <div class="irow">
 
-        <div class="info-label">
+        <div class="ilab">
           Rotation Schedule
         </div>
 
         <div
-          id="detailRotation"
-          class="info-value">
+          id="dRotation"
+          class="ival"
+        >
           --
         </div>
 
       </div>
 
 
-      <div class="info">
+      <div class="irow">
 
-        <div class="info-label">
+        <div class="ilab">
           Irrigation Status
         </div>
 
         <div
-          id="detailIrrigation"
-          class="info-value">
+          id="dIrrigation"
+          class="ival"
+        >
           --
         </div>
 
       </div>
 
 
-      <div class="info">
+      <div class="irow">
 
-        <div class="info-label">
+        <div class="ilab">
           Remarks
         </div>
 
         <div
-          id="detailRemarks"
-          class="info-value">
+          id="dRemarks"
+          class="ival"
+        >
           --
         </div>
 
       </div>
 
+
     </div>
+
 
   </div>
 
 </div>
 
 
+
 <script>
 
 /* =========================================================
-   CONFIG
-========================================================= */
+   IMPORTANT
+   ILAGAY DITO ANG APPS SCRIPT /EXEC URL MO
+   ========================================================= */
 
 const WEB_APP_URL =
   "https://script.google.com/macros/s/AKfycbxzEhezj4q8QpoIf9O6tEN4tpPjU_UAB-wrscB9Pc60djF7zM-MT5q2GFk7OvrQyyGh/exec";
 
 
-/*
-  LOCAL STORAGE KEY
-
-  Dito ise-save ang latest successful
-  data para available kahit offline.
-*/
+/* =========================================================
+   OFFLINE CACHE
+   ========================================================= */
 
 const CACHE_KEY =
-  "OW_MONITORING_LAST_DATA_V1";
+  "OW_COMPANY_PORTAL_DATA_V5";
 
-const CACHE_TIME_KEY =
-  "OW_MONITORING_LAST_TIME_V1";
+const CACHE_TIME =
+  "OW_COMPANY_PORTAL_TIME_V5";
 
 
 /* =========================================================
-   VARIABLES
-========================================================= */
+   GLOBAL VARIABLES
+   ========================================================= */
 
-let allRecords = [];
+let records = [];
 
-let currentFilter = "ALL";
+let filter = "ALL";
 
 let loading = false;
 
 
 /* =========================================================
-   ELEMENTS
-========================================================= */
+   SHORTCUT
+   ========================================================= */
 
-const recordsEl =
-  document.getElementById("records");
-
-const searchEl =
-  document.getElementById("search");
-
-const countEl =
-  document.getElementById("count");
-
-const refreshEl =
-  document.getElementById("refresh");
-
-const statusDot =
-  document.getElementById("statusDot");
-
-const connectionText =
-  document.getElementById("connectionText");
-
-const updateText =
-  document.getElementById("updateText");
-
-const overlay =
-  document.getElementById("overlay");
+const $ = id =>
+  document.getElementById(id);
 
 
 /* =========================================================
-   BASIC HELPERS
-========================================================= */
+   CLEAN TEXT
+   ========================================================= */
 
-function clean(value) {
+function clean(value){
 
-  if (
+  if(
     value === null ||
     value === undefined
-  ) {
+  ){
 
     return "";
 
@@ -1507,125 +1815,159 @@ function clean(value) {
 }
 
 
-function escapeHTML(value) {
+/* =========================================================
+   HTML ESCAPE
+   ========================================================= */
+
+function esc(value){
 
   return clean(value)
+
     .replace(/&/g,"&amp;")
+
     .replace(/</g,"&lt;")
+
     .replace(/>/g,"&gt;")
+
     .replace(/"/g,"&quot;")
+
     .replace(/'/g,"&#039;");
 
 }
 
 
-function numberValue(value) {
+/* =========================================================
+   NUMBER
+   ========================================================= */
 
-  const text =
-    clean(value)
-      .replace(/[^\d.-]/g,"");
+function num(value){
 
-  if (!text) {
-    return null;
-  }
+  let n =
+    parseFloat(
+      clean(value)
+      .replace(/[^\d.-]/g,"")
+    );
 
-  const number =
-    parseFloat(text);
-
-  return Number.isFinite(number)
-    ? number
+  return Number.isFinite(n)
+    ? n
     : null;
 
 }
 
 
 /* =========================================================
-   WATER LOGIC
-========================================================= */
+   WATER LEVEL LOGIC
+   =========================================================
 
-function getLogic(value) {
+   CURRENT READ 0–4
+        ↓
+   NEXT TARGET 16–20
 
-  if (
-    value === "" ||
-    value === null ||
-    value === undefined
-  ) {
+   CURRENT READ 16–20
+        ↓
+   NEXT TARGET 0–4
+
+   ========================================================= */
+
+function waterLevelLogic(value){
+
+  if(clean(value) === ""){
 
     return {
-      category: "NO_READING",
-      status: "NO READING",
-      target: "WAITING FOR READING"
+
+      category:"NO_READING",
+
+      status:"NO READING",
+
+      target:"WAITING FOR READING"
+
     };
 
   }
 
 
-  const number =
-    numberValue(value);
+  const n =
+    num(value);
 
 
-  if (number === null) {
+  if(n === null){
 
     return {
-      category: "CHECK",
-      status: "CHECK READING",
-      target: "CHECK READING"
+
+      category:"CHECK",
+
+      status:"CHECK READING",
+
+      target:"CHECK READING"
+
     };
 
   }
 
 
-  if (
-    number >= 0 &&
-    number <= 4
-  ) {
+  if(
+    n >= 0 &&
+    n <= 4
+  ){
 
     return {
-      category: "TARGET_1620",
-      status: "16–20 CM",
-      target: "16–20 cm"
+
+      category:"TARGET_1620",
+
+      status:"16–20 CM",
+
+      target:"16–20 cm"
+
     };
 
   }
 
 
-  if (
-    number >= 16 &&
-    number <= 20
-  ) {
+  if(
+    n >= 16 &&
+    n <= 20
+  ){
 
     return {
-      category: "TARGET_04",
-      status: "0–4 CM",
-      target: "0–4 cm"
+
+      category:"TARGET_04",
+
+      status:"0–4 CM",
+
+      target:"0–4 cm"
+
     };
 
   }
 
 
   return {
-    category: "CHECK",
-    status: "CHECK READING",
-    target: "CHECK READING"
+
+    category:"CHECK",
+
+    status:"CHECK READING",
+
+    target:"CHECK READING"
+
   };
 
 }
 
 
 /* =========================================================
-   COMPLETED
-========================================================= */
+   COMPLETED LOGIC
+   ========================================================= */
 
-function completed(remarks) {
+function isCompleted(record){
 
-  const text =
-    clean(remarks)
-      .toUpperCase();
+  const remarks =
+    clean(record.Remarks)
+    .toUpperCase();
 
 
   return (
-    text.includes("COMPLIANT") &&
-    !text.includes("NON-COMPLIANT")
+    remarks.includes("COMPLIANT") &&
+    !remarks.includes("NON-COMPLIANT")
   );
 
 }
@@ -1633,39 +1975,43 @@ function completed(remarks) {
 
 /* =========================================================
    WATER STATUS
-========================================================= */
+   ========================================================= */
 
-function waterStatus(record) {
+function getWaterStatus(record){
 
   const text = [
 
     record["Water Status"],
+
     record["Irrigation Status"],
+
     record["Rotation Schedule"],
-    record["Remarks"]
+
+    record.Remarks
 
   ]
-    .map(clean)
-    .join(" ")
-    .toUpperCase();
+
+  .map(clean)
+  .join(" ")
+  .toUpperCase();
 
 
-  if (
+  if(
     text.includes("NO WATER") ||
     text.includes("WALANG PATUBIG") ||
     text.includes("WALANG TUBIG")
-  ) {
+  ){
 
     return "NO_WATER";
 
   }
 
 
-  if (
+  if(
     text.includes("WITH WATER") ||
     text.includes("MAY PATUBIG") ||
     text.includes("MAY TUBIG")
-  ) {
+  ){
 
     return "WITH_WATER";
 
@@ -1678,60 +2024,61 @@ function waterStatus(record) {
 
 
 /* =========================================================
-   NORMALIZE
-========================================================= */
+   NORMALIZE RECORD
+   ========================================================= */
 
-function normalize(raw) {
+function normalizeRecord(record){
 
   const r = {
 
     OW:
       clean(
-        raw["OW"] ||
-        raw["OW NO."]
+        record.OW ||
+        record["OW NO."] ||
+        record["OW No."] ||
+        record["OW NUMBER"]
       ),
 
     Name:
       clean(
-        raw["Name"] ||
-        raw["NAME"]
+        record.Name ||
+        record.NAME ||
+        record["Name"]
       ),
 
     "1st":
-      clean(raw["1st"]),
+      clean(record["1st"]),
 
     "2nd":
-      clean(raw["2nd"]),
+      clean(record["2nd"]),
 
     "3rd":
-      clean(raw["3rd"]),
+      clean(record["3rd"]),
 
     "4th":
-      clean(raw["4th"]),
+      clean(record["4th"]),
 
     "5th":
-      clean(raw["5th"]),
+      clean(record["5th"]),
 
     Remarks:
-      clean(raw["Remarks"]),
+      clean(record.Remarks),
 
     "Rotation Schedule":
-      clean(
-        raw["Rotation Schedule"]
-      ),
+      clean(record["Rotation Schedule"]),
 
     "Irrigation Status":
-      clean(
-        raw["Irrigation Status"]
-      ),
+      clean(record["Irrigation Status"]),
 
     "Water Status":
-      clean(
-        raw["Water Status"]
-      )
+      clean(record["Water Status"])
 
   };
 
+
+  /* =====================================================
+     FIND LATEST READING
+     ===================================================== */
 
   let current = "";
 
@@ -1739,27 +2086,29 @@ function normalize(raw) {
 
 
   const columns = [
+
     "5th",
     "4th",
     "3rd",
     "2nd",
     "1st"
+
   ];
 
 
-  for (
-    const col of columns
-  ) {
+  for(
+    const column of columns
+  ){
 
-    if (
-      clean(r[col]) !== ""
-    ) {
+    if(
+      clean(r[column]) !== ""
+    ){
 
       current =
-        r[col];
+        r[column];
 
       latest =
-        col;
+        column;
 
       break;
 
@@ -1768,31 +2117,12 @@ function normalize(raw) {
   }
 
 
+  /* =====================================================
+     WATER LEVEL LOGIC
+     ===================================================== */
+
   const logic =
-    getLogic(current);
-
-
-  let category =
-    logic.category;
-
-  let status =
-    logic.status;
-
-  let target =
-    logic.target;
-
-
-  if (
-    completed(r.Remarks)
-  ) {
-
-    category =
-      "COMPLETED";
-
-    status =
-      "COMPLETED";
-
-  }
+    waterLevelLogic(current);
 
 
   r["Current Water Level"] =
@@ -1802,16 +2132,38 @@ function normalize(raw) {
     latest;
 
   r["Next Target"] =
-    target;
+    logic.target;
 
-  r["Status"] =
-    status;
+  r.Status =
+    logic.status;
 
   r["Monitoring Category"] =
-    category;
+    logic.category;
+
+
+  /* =====================================================
+     WATER STATUS
+     ===================================================== */
 
   r["Water Status"] =
-    waterStatus(r);
+    getWaterStatus(r);
+
+
+  /* =====================================================
+     COMPLETED
+     ===================================================== */
+
+  if(
+    isCompleted(r)
+  ){
+
+    r["Monitoring Category"] =
+      "COMPLETED";
+
+    r.Status =
+      "COMPLETED";
+
+  }
 
 
   return r;
@@ -1820,29 +2172,31 @@ function normalize(raw) {
 
 
 /* =========================================================
-   OFFLINE CACHE SAVE
-========================================================= */
+   CACHE DATA
+   ========================================================= */
 
-function saveOfflineData(data) {
+function saveCache(raw){
 
-  try {
+  try{
 
     localStorage.setItem(
       CACHE_KEY,
-      JSON.stringify(data)
+      JSON.stringify(raw)
     );
 
+
     localStorage.setItem(
-      CACHE_TIME_KEY,
+      CACHE_TIME,
       String(Date.now())
     );
 
-  }
 
-  catch(error) {
+    showCache();
+
+  }catch(error){
 
     console.warn(
-      "Offline cache failed:",
+      "Cache error:",
       error
     );
 
@@ -1852,85 +2206,100 @@ function saveOfflineData(data) {
 
 
 /* =========================================================
-   OFFLINE CACHE LOAD
-========================================================= */
+   SHOW CACHE TIME
+   ========================================================= */
 
-function loadOfflineData() {
+function showCache(){
 
-  try {
+  const timestamp =
+    localStorage.getItem(
+      CACHE_TIME
+    );
 
-    const saved =
-      localStorage.getItem(
-        CACHE_KEY
+
+  if(!timestamp){
+
+    $("cache").textContent =
+      "No cached data";
+
+    return;
+
+  }
+
+
+  const date =
+    new Date(
+      Number(timestamp)
+    );
+
+
+  $("cache").textContent =
+    "Saved " +
+    date.toLocaleString(
+      "en-PH",
+      {
+        month:"short",
+        day:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
+
+}
+
+
+/* =========================================================
+   LOAD OFFLINE CACHE
+   ========================================================= */
+
+function loadCache(){
+
+  try{
+
+    const raw =
+      JSON.parse(
+        localStorage.getItem(
+          CACHE_KEY
+        ) || "null"
       );
 
 
-    if (!saved) {
+    if(
+      !Array.isArray(raw)
+    ){
 
       return false;
 
     }
 
 
-    const data =
-      JSON.parse(saved);
+    records =
+      raw
+
+      .map(
+        normalizeRecord
+      )
+
+      .filter(
+        r =>
+          r.OW ||
+          r.Name
+      );
 
 
-    if (
-      !Array.isArray(data)
-    ) {
-
-      return false;
-
-    }
-
-
-    allRecords =
-      data.map(normalize);
-
+    showCache();
 
     updateSummary();
 
-    render();
-
-
-    const savedTime =
-      localStorage.getItem(
-        CACHE_TIME_KEY
-      );
-
-
-    if (savedTime) {
-
-      const date =
-        new Date(
-          Number(savedTime)
-        );
-
-
-      updateText.textContent =
-        "Saved " +
-        date.toLocaleString(
-          "en-PH",
-          {
-            month: "short",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-          }
-        );
-
-    }
+    renderRecords();
 
 
     return true;
 
-  }
-
-  catch(error) {
+  }catch(error){
 
     console.warn(
-      "Offline data error:",
+      "Offline cache error:",
       error
     );
 
@@ -1942,71 +2311,71 @@ function loadOfflineData() {
 
 
 /* =========================================================
-   CONNECTION DISPLAY
-========================================================= */
+   CONNECTION STATUS
+   ========================================================= */
 
-function showOnline() {
+function setConnection(online){
 
-  statusDot.className =
-    "dot online";
+  if(online){
 
-  connectionText.textContent =
-    "ONLINE";
+    $("dot")
+      .className =
+      "dot on";
 
-}
+    $("connText")
+      .textContent =
+      "ONLINE";
 
+  }else{
 
-function showOffline() {
+    $("dot")
+      .className =
+      "dot off";
 
-  statusDot.className =
-    "dot offline";
+    $("connText")
+      .textContent =
+      "OFFLINE • SAVED DATA";
 
-  connectionText.textContent =
-    "OFFLINE";
+  }
 
 }
 
 
 /* =========================================================
-   LOAD ONLINE
-========================================================= */
+   FETCH ONLINE DATA
+   ========================================================= */
 
-function loadOnline() {
+function fetchOnline(){
 
-  if (loading) {
+  if(loading){
+
     return;
+
   }
 
 
-  if (
+  /* =====================================================
+     NO URL
+     ===================================================== */
+
+  if(
     !WEB_APP_URL ||
     WEB_APP_URL.includes(
       "PASTE_YOUR"
     )
-  ) {
+  ){
 
-    const cached =
-      loadOfflineData();
-
-
-    if (cached) {
-
-      showOffline();
-
-      connectionText.textContent =
-        "OFFLINE • CACHED DATA";
-
-    }
-
-    else {
-
-      showOffline();
+    if(
+      !loadCache()
+    ){
 
       showError(
-        "Ilagay ang Apps Script /exec URL sa WEB_APP_URL."
+        "Ilagay muna ang Apps Script /exec URL sa WEB_APP_URL."
       );
 
     }
+
+    setConnection(false);
 
     return;
 
@@ -2016,56 +2385,66 @@ function loadOnline() {
   loading = true;
 
 
-  const callback =
+  const callbackName =
     "owCallback_" +
     Date.now();
 
 
   const script =
-    document.createElement("script");
+    document.createElement(
+      "script"
+    );
 
 
   let finished = false;
 
 
-  const timeout =
+  const finish = () => {
+
+    loading = false;
+
+    delete window[
+      callbackName
+    ];
+
+    script.remove();
+
+  };
+
+
+  /* =====================================================
+     TIMEOUT
+     ===================================================== */
+
+  const timer =
     setTimeout(
       () => {
 
-        if (finished) {
+        if(finished){
+
           return;
+
         }
+
 
         finished = true;
 
-        loading = false;
 
-        script.remove();
-
-        /*
-          Kapag walang internet,
-          gamitin ang saved data.
-        */
-
-        const cached =
-          loadOfflineData();
+        finish();
 
 
-        if (cached) {
+        if(
+          loadCache()
+        ){
 
-          showOffline();
+          setConnection(false);
 
-          connectionText.textContent =
-            "OFFLINE • CACHED DATA";
+        }else{
 
-        }
-
-        else {
-
-          showOffline();
+          setConnection(false);
 
           showError(
-            "Walang internet at wala pang saved data."
+            "Walang internet at wala pang saved records sa device."
           );
 
         }
@@ -2075,132 +2454,122 @@ function loadOnline() {
     );
 
 
-  window[callback] =
-    function(data) {
+  /* =====================================================
+     JSONP CALLBACK
+     ===================================================== */
 
-      if (finished) {
+  window[
+    callbackName
+  ] =
+    data => {
+
+      if(finished){
+
         return;
+
       }
 
 
       finished = true;
 
-      clearTimeout(timeout);
 
-      loading = false;
-
-
-      try {
-
-        let rows = [];
+      clearTimeout(timer);
 
 
-        if (
+      try{
+
+        let raw = [];
+
+
+        if(
           Array.isArray(data)
-        ) {
+        ){
 
-          rows = data;
+          raw = data;
 
-        }
-
-        else if (
+        }else if(
           data &&
           Array.isArray(
             data.records
           )
-        ) {
+        ){
 
-          rows =
+          raw =
             data.records;
 
-        }
-
-        else if (
+        }else if(
           data &&
           Array.isArray(
             data.data
           )
-        ) {
+        ){
 
-          rows =
+          raw =
             data.data;
 
         }
 
 
-        if (!rows.length) {
+        if(
+          !Array.isArray(raw)
+        ){
 
           throw new Error(
-            "No records"
+            "Invalid data"
           );
 
         }
 
 
         /*
-          SAVE RAW DATA
-          BEFORE NORMALIZATION
-        */
+         SAVE DATA LOCALLY
+         */
 
-        saveOfflineData(
-          rows
-        );
+        saveCache(raw);
 
 
-        allRecords =
-          rows
-            .map(normalize)
-            .filter(
-              r =>
-                r.OW ||
-                r.Name
-            );
+        /*
+         NORMALIZE
+         */
+
+        records =
+          raw
+
+          .map(
+            normalizeRecord
+          )
+
+          .filter(
+            r =>
+              r.OW ||
+              r.Name
+          );
 
 
-        showOnline();
-
-
-        updateText.textContent =
-          "Updated " +
-          new Date()
-            .toLocaleTimeString(
-              "en-PH",
-              {
-                hour: "2-digit",
-                minute: "2-digit"
-              }
-            );
-
+        setConnection(true);
 
         updateSummary();
 
-        render();
-
-      }
-
-      catch(error) {
-
-        console.error(error);
-
-        const cached =
-          loadOfflineData();
+        renderRecords();
 
 
-        if (cached) {
+      }catch(error){
 
-          showOffline();
+        console.error(
+          error
+        );
 
-          connectionText.textContent =
-            "OFFLINE • CACHED DATA";
 
-        }
+        if(
+          loadCache()
+        ){
 
-        else {
+          setConnection(false);
 
-          showOffline();
+        }else{
 
           showError(
-            "Hindi ma-process ang records."
+            "May problema sa data mula sa Apps Script."
           );
 
         }
@@ -2208,46 +2577,43 @@ function loadOnline() {
       }
 
 
-      delete window[callback];
-
-      script.remove();
+      finish();
 
     };
 
 
-  script.onerror =
-    function() {
+  /* =====================================================
+     SCRIPT ERROR
+     ===================================================== */
 
-      if (finished) {
+  script.onerror =
+    () => {
+
+      if(finished){
+
         return;
+
       }
 
 
       finished = true;
 
-      clearTimeout(timeout);
 
-      loading = false;
-
-      script.remove();
+      clearTimeout(timer);
 
 
-      const cached =
-        loadOfflineData();
+      finish();
 
 
-      if (cached) {
+      if(
+        loadCache()
+      ){
 
-        showOffline();
+        setConnection(false);
 
-        connectionText.textContent =
-          "OFFLINE • CACHED DATA";
+      }else{
 
-      }
-
-      else {
-
-        showOffline();
+        setConnection(false);
 
         showError(
           "Hindi ma-access ang online server."
@@ -2258,18 +2624,27 @@ function loadOnline() {
     };
 
 
-  const separator =
-    WEB_APP_URL.includes("?")
-      ? "&"
-      : "?";
-
+  /* =====================================================
+     JSONP URL
+     ===================================================== */
 
   script.src =
     WEB_APP_URL +
-    separator +
+
+    (
+      WEB_APP_URL.includes("?")
+      ? "&"
+      : "?"
+    ) +
+
     "callback=" +
-    encodeURIComponent(callback) +
+
+    encodeURIComponent(
+      callbackName
+    ) +
+
     "&t=" +
+
     Date.now();
 
 
@@ -2282,27 +2657,30 @@ function loadOnline() {
 
 /* =========================================================
    SUMMARY
-========================================================= */
+   ========================================================= */
 
-function updateSummary() {
+function updateSummary(){
 
   const active =
-    allRecords.filter(
+    records.filter(
       r =>
         r["Monitoring Category"] !==
         "COMPLETED"
     );
 
 
-  const completedRecords =
-    allRecords.filter(
-      r =>
-        r["Monitoring Category"] ===
-        "COMPLETED"
-    );
+  const completed =
+    records.length -
+    active.length;
 
 
-  const c04 =
+  $("sMonitoring")
+    .textContent =
+    active.length;
+
+
+  $("s04")
+    .textContent =
     active.filter(
       r =>
         r["Monitoring Category"] ===
@@ -2310,7 +2688,8 @@ function updateSummary() {
     ).length;
 
 
-  const c1620 =
+  $("s1620")
+    .textContent =
     active.filter(
       r =>
         r["Monitoring Category"] ===
@@ -2318,7 +2697,8 @@ function updateSummary() {
     ).length;
 
 
-  const noReading =
+  $("sNo")
+    .textContent =
     active.filter(
       r =>
         r["Monitoring Category"] ===
@@ -2326,7 +2706,8 @@ function updateSummary() {
     ).length;
 
 
-  const waterYes =
+  $("sYes")
+    .textContent =
     active.filter(
       r =>
         r["Water Status"] ===
@@ -2334,7 +2715,8 @@ function updateSummary() {
     ).length;
 
 
-  const waterNo =
+  $("sNoWater")
+    .textContent =
     active.filter(
       r =>
         r["Water Status"] ===
@@ -2342,67 +2724,33 @@ function updateSummary() {
     ).length;
 
 
-  document.getElementById(
-    "summaryMonitoring"
-  ).textContent =
-    active.length;
-
-
-  document.getElementById(
-    "summary04"
-  ).textContent =
-    c04;
-
-
-  document.getElementById(
-    "summary1620"
-  ).textContent =
-    c1620;
-
-
-  document.getElementById(
-    "summaryNoReading"
-  ).textContent =
-    noReading;
-
-
-  document.getElementById(
-    "summaryWaterYes"
-  ).textContent =
-    waterYes;
-
-
-  document.getElementById(
-    "summaryWaterNo"
-  ).textContent =
-    waterNo;
-
-
-  document.getElementById(
-    "summaryCompleted"
-  ).textContent =
-    completedRecords.length;
+  $("sComplete")
+    .textContent =
+    completed;
 
 }
 
 
 /* =========================================================
-   FILTER
-========================================================= */
+   FILTER RECORDS
+   ========================================================= */
 
-function filteredRecords() {
+function getFilteredRecords(){
 
-  let data =
-    [...allRecords];
+  let result =
+    [...records];
 
 
-  if (
-    currentFilter ===
-    "ALL"
-  ) {
+  /* =====================================================
+     FILTER
+     ===================================================== */
 
-    data =
-      data.filter(
+  if(
+    filter === "ALL"
+  ){
+
+    result =
+      result.filter(
         r =>
           r["Monitoring Category"] !==
           "COMPLETED"
@@ -2410,14 +2758,12 @@ function filteredRecords() {
 
   }
 
+  else if(
+    filter === "COMPLETED"
+  ){
 
-  else if (
-    currentFilter ===
-    "COMPLETED"
-  ) {
-
-    data =
-      data.filter(
+    result =
+      result.filter(
         r =>
           r["Monitoring Category"] ===
           "COMPLETED"
@@ -2425,482 +2771,557 @@ function filteredRecords() {
 
   }
 
+  else if(
+    filter === "WATER_YES"
+  ){
 
-  else if (
-    currentFilter ===
-    "WATER_YES"
-  ) {
-
-    data =
-      data.filter(
+    result =
+      result.filter(
         r =>
           r["Monitoring Category"] !==
           "COMPLETED" &&
+
           r["Water Status"] ===
           "WITH_WATER"
       );
 
   }
 
+  else if(
+    filter === "WATER_NO"
+  ){
 
-  else if (
-    currentFilter ===
-    "WATER_NO"
-  ) {
-
-    data =
-      data.filter(
+    result =
+      result.filter(
         r =>
           r["Monitoring Category"] !==
           "COMPLETED" &&
+
           r["Water Status"] ===
           "NO_WATER"
       );
 
   }
 
+  else{
 
-  else {
-
-    data =
-      data.filter(
+    result =
+      result.filter(
         r =>
           r["Monitoring Category"] ===
-          currentFilter
+          filter
       );
 
   }
 
 
-  const search =
+  /* =====================================================
+     SEARCH
+     ===================================================== */
+
+  const query =
     clean(
-      searchEl.value
-    ).toLowerCase();
+      $("search").value
+    )
+    .toLowerCase();
 
 
-  if (search) {
+  if(query){
 
-    data =
-      data.filter(
-        r => {
+    result =
+      result.filter(
+        r =>
 
-          const ow =
-            clean(r.OW)
-              .toLowerCase();
+          clean(r.OW)
+            .toLowerCase()
+            .includes(query)
 
-          const name =
-            clean(r.Name)
-              .toLowerCase();
+          ||
 
+          clean(r.Name)
+            .toLowerCase()
+            .includes(query)
 
-          return (
-            ow.includes(search) ||
-            name.includes(search)
-          );
-
-        }
       );
 
   }
 
 
-  return data;
+  return result;
 
 }
 
 
 /* =========================================================
-   RENDER
-========================================================= */
+   RENDER RECORDS
+   ========================================================= */
 
-function render() {
+function renderRecords(){
 
-  const data =
-    filteredRecords();
+  const result =
+    getFilteredRecords();
 
 
-  countEl.textContent =
-    data.length +
+  $("count")
+    .textContent =
+    result.length +
+    " " +
     (
-      data.length === 1
-        ? " record"
-        : " records"
+      result.length === 1
+      ? "record"
+      : "records"
     );
 
 
-  if (!data.length) {
+  if(
+    !result.length
+  ){
 
-    recordsEl.innerHTML = `
+    $("records").innerHTML =
 
+      `
       <div class="empty">
 
-        <div class="empty-icon">
-          📋
-        </div>
+        📋
 
-        <div class="empty-text">
+        <br><br>
+
+        <b>
           No records found
-        </div>
+        </b>
+
+        <br><br>
+
+        Try another search or filter.
 
       </div>
-
-    `;
+      `;
 
     return;
 
   }
 
 
-  recordsEl.innerHTML =
-    data
-      .map(
-        record =>
-          card(record)
-      )
-      .join("");
+  $("records").innerHTML =
+    result
+    .map(
+      record => {
+
+        /*
+         FIND ORIGINAL INDEX
+        */
+
+        const index =
+          records.indexOf(
+            record
+          );
+
+
+        const category =
+          record[
+            "Monitoring Category"
+          ];
+
+
+        let badgeClass =
+          "bcheck";
+
+
+        if(
+          category ===
+          "TARGET_04"
+        ){
+
+          badgeClass =
+            "b04";
+
+        }
+
+        else if(
+          category ===
+          "TARGET_1620"
+        ){
+
+          badgeClass =
+            "b1620";
+
+        }
+
+        else if(
+          category ===
+          "NO_READING"
+        ){
+
+          badgeClass =
+            "bno";
+
+        }
+
+        else if(
+          category ===
+          "COMPLETED"
+        ){
+
+          badgeClass =
+            "bcomplete";
+
+        }
+
+
+        let waterClass =
+          "wu";
+
+
+        let waterText =
+          "WATER STATUS N/A";
+
+
+        if(
+          record[
+            "Water Status"
+          ] ===
+          "WITH_WATER"
+        ){
+
+          waterClass =
+            "wy";
+
+          waterText =
+            "💧 MAY PATUBIG";
+
+        }
+
+        else if(
+          record[
+            "Water Status"
+          ] ===
+          "NO_WATER"
+        ){
+
+          waterClass =
+            "wn";
+
+          waterText =
+            "⚠️ WALANG PATUBIG";
+
+        }
+
+
+        const current =
+          clean(
+            record[
+              "Current Water Level"
+            ]
+          ) ||
+          "--";
+
+
+        return `
+
+        <div class="card">
+
+          <div class="top">
+
+            <div>
+
+              <div class="ow">
+                ${esc(
+                  record.OW ||
+                  "OW"
+                )}
+              </div>
+
+              <div class="name">
+                ${esc(
+                  record.Name ||
+                  "No name"
+                )}
+              </div>
+
+            </div>
+
+
+            <div
+              class="badge ${badgeClass}"
+            >
+              ${esc(
+                record.Status ||
+                "--"
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="waterrow">
+
+            <span
+              class="water ${waterClass}"
+            >
+
+              ${waterText}
+
+            </span>
+
+          </div>
+
+
+          <div class="grid">
+
+
+            <div class="box">
+
+              <div class="blabel">
+                Current Read
+              </div>
+
+              <div class="value">
+
+                ${esc(current)}
+
+                ${
+                  current !== "--"
+                  ? " cm"
+                  : ""
+                }
+
+              </div>
+
+            </div>
+
+
+            <div class="box target">
+
+              <div class="blabel">
+                Next Target
+              </div>
+
+              <div class="value">
+
+                ${esc(
+                  record[
+                    "Next Target"
+                  ] ||
+                  "--"
+                )}
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="foot">
+
+            <div class="latest">
+
+              Latest:
+
+              <strong>
+
+                ${esc(
+                  record[
+                    "Latest Reading Column"
+                  ] ||
+                  "--"
+                )}
+
+              </strong>
+
+            </div>
+
+
+            <button
+              class="details"
+              onclick="openDetail(${index})"
+            >
+
+              View Details
+
+            </button>
+
+          </div>
+
+
+        </div>
+
+        `;
+
+      }
+    )
+    .join("");
 
 }
 
 
 /* =========================================================
-   CARD
-========================================================= */
+   OPEN DETAIL
+   ========================================================= */
 
-function card(record) {
+function openDetail(index){
 
-  const category =
-    record["Monitoring Category"];
-
-
-  let statusClass =
-    "scheck";
+  const record =
+    records[index];
 
 
-  if (
-    category ===
-    "TARGET_04"
-  ) {
+  if(!record){
 
-    statusClass =
-      "s04";
-
-  }
-
-  else if (
-    category ===
-    "TARGET_1620"
-  ) {
-
-    statusClass =
-      "s1620";
-
-  }
-
-  else if (
-    category ===
-    "NO_READING"
-  ) {
-
-    statusClass =
-      "snone";
-
-  }
-
-  else if (
-    category ===
-    "COMPLETED"
-  ) {
-
-    statusClass =
-      "scomplete";
+    return;
 
   }
 
 
-  let waterClass =
-    "water-unknown";
+  $("dtitle")
+    .textContent =
 
-  let waterText =
-    "WATER STATUS N/A";
+      (
+        record.OW ||
+        "OW"
+      ) +
+
+      " • " +
+
+      (
+        record.Name ||
+        ""
+      );
 
 
-  if (
-    record["Water Status"] ===
+  $("dCurrent")
+    .textContent =
+
+      record[
+        "Current Water Level"
+      ]
+
+      ?
+
+      record[
+        "Current Water Level"
+      ] +
+
+      " cm"
+
+      :
+
+      "--";
+
+
+  $("dTarget")
+    .textContent =
+    record[
+      "Next Target"
+    ] ||
+    "--";
+
+
+  $("dStatus")
+    .textContent =
+    record.Status ||
+    "--";
+
+
+  $("dLatest")
+    .textContent =
+    record[
+      "Latest Reading Column"
+    ] ||
+    "--";
+
+
+  $("h1")
+    .textContent =
+    record["1st"] ||
+    "--";
+
+
+  $("h2")
+    .textContent =
+    record["2nd"] ||
+    "--";
+
+
+  $("h3")
+    .textContent =
+    record["3rd"] ||
+    "--";
+
+
+  $("h4")
+    .textContent =
+    record["4th"] ||
+    "--";
+
+
+  $("h5")
+    .textContent =
+    record["5th"] ||
+    "--";
+
+
+  if(
+    record[
+      "Water Status"
+    ] ===
     "WITH_WATER"
-  ) {
+  ){
 
-    waterClass =
-      "water-yes";
-
-    waterText =
+    $("dWater")
+      .textContent =
       "💧 MAY PATUBIG";
 
   }
 
-
-  if (
-    record["Water Status"] ===
+  else if(
+    record[
+      "Water Status"
+    ] ===
     "NO_WATER"
-  ) {
+  ){
 
-    waterClass =
-      "water-no";
-
-    waterText =
+    $("dWater")
+      .textContent =
       "⚠️ WALANG PATUBIG";
 
   }
 
+  else{
 
-  const index =
-    allRecords.indexOf(record);
+    $("dWater")
+      .textContent =
+      "WATER STATUS N/A";
 
-
-  const current =
-    clean(
-      record["Current Water Level"]
-    ) || "--";
-
-
-  return `
-
-    <div class="record">
-
-      <div class="record-top">
-
-        <div>
-
-          <div class="ow">
-            ${escapeHTML(
-              record.OW || "OW"
-            )}
-          </div>
-
-          <div class="name">
-            ${escapeHTML(
-              record.Name || "No name"
-            )}
-          </div>
-
-        </div>
-
-
-        <div
-          class="status ${statusClass}">
-
-          ${escapeHTML(
-            record.Status || "--"
-          )}
-
-        </div>
-
-      </div>
-
-
-      <div class="water">
-
-        <span
-          class="water-badge ${waterClass}">
-
-          ${waterText}
-
-        </span>
-
-      </div>
-
-
-      <div class="readings">
-
-        <div class="read-box">
-
-          <div class="read-label">
-            Current Read
-          </div>
-
-          <div class="read-value">
-
-            ${escapeHTML(current)}
-
-            ${
-              current !== "--"
-                ? " cm"
-                : ""
-            }
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="read-box target-box">
-
-          <div class="read-label">
-            Next Target
-          </div>
-
-          <div class="read-value">
-
-            ${escapeHTML(
-              record["Next Target"] ||
-              "--"
-            )}
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="card-foot">
-
-        <div class="latest">
-
-          Latest:
-          <strong>
-            ${escapeHTML(
-              record["Latest Reading Column"] ||
-              "--"
-            )}
-          </strong>
-
-        </div>
-
-
-        <button
-          class="view"
-          onclick="openDetail(${index})">
-
-          View Details
-
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   DETAIL
-========================================================= */
-
-function openDetail(index) {
-
-  const r =
-    allRecords[index];
-
-
-  if (!r) {
-    return;
   }
 
 
-  document.getElementById(
-    "detailTitle"
-  ).textContent =
-    (
-      r.OW || "OW"
-    ) +
-    " • " +
-    (
-      r.Name || ""
-    );
-
-
-  document.getElementById(
-    "detailCurrent"
-  ).textContent =
-    r["Current Water Level"]
-      ? r["Current Water Level"] +
-        " cm"
-      : "--";
-
-
-  document.getElementById(
-    "detailTarget"
-  ).textContent =
-    r["Next Target"] || "--";
-
-
-  document.getElementById(
-    "detailStatus"
-  ).textContent =
-    r["Status"] || "--";
-
-
-  document.getElementById(
-    "detailLatest"
-  ).textContent =
-    r["Latest Reading Column"] || "--";
-
-
-  document.getElementById(
-    "h1"
-  ).textContent =
-    r["1st"] || "--";
-
-
-  document.getElementById(
-    "h2"
-  ).textContent =
-    r["2nd"] || "--";
-
-
-  document.getElementById(
-    "h3"
-  ).textContent =
-    r["3rd"] || "--";
-
-
-  document.getElementById(
-    "h4"
-  ).textContent =
-    r["4th"] || "--";
-
-
-  document.getElementById(
-    "h5"
-  ).textContent =
-    r["5th"] || "--";
-
-
-  document.getElementById(
-    "detailWater"
-  ).textContent =
-    waterText(
-      r["Water Status"]
-    );
-
-
-  document.getElementById(
-    "detailRotation"
-  ).textContent =
-    r["Rotation Schedule"] ||
+  $("dRotation")
+    .textContent =
+    record[
+      "Rotation Schedule"
+    ] ||
     "--";
 
 
-  document.getElementById(
-    "detailIrrigation"
-  ).textContent =
-    r["Irrigation Status"] ||
+  $("dIrrigation")
+    .textContent =
+    record[
+      "Irrigation Status"
+    ] ||
     "--";
 
 
-  document.getElementById(
-    "detailRemarks"
-  ).textContent =
-    r["Remarks"] ||
+  $("dRemarks")
+    .textContent =
+    record.Remarks ||
     "--";
 
 
-  overlay.classList.add(
-    "show"
-  );
+  $("overlay")
+    .classList
+    .add("show");
+
 
   document.body.style.overflow =
     "hidden";
@@ -2908,38 +3329,16 @@ function openDetail(index) {
 }
 
 
-function waterText(status) {
+/* =========================================================
+   CLOSE DETAIL
+   ========================================================= */
 
-  if (
-    status ===
-    "WITH_WATER"
-  ) {
+function closeDetail(){
 
-    return "💧 MAY PATUBIG";
+  $("overlay")
+    .classList
+    .remove("show");
 
-  }
-
-
-  if (
-    status ===
-    "NO_WATER"
-  ) {
-
-    return "⚠️ WALANG PATUBIG";
-
-  }
-
-
-  return "WATER STATUS N/A";
-
-}
-
-
-function closeDetail() {
-
-  overlay.classList.remove(
-    "show"
-  );
 
   document.body.style.overflow =
     "";
@@ -2948,73 +3347,186 @@ function closeDetail() {
 
 
 /* =========================================================
-   EVENTS
-========================================================= */
+   ERROR
+   ========================================================= */
+
+function showError(message){
+
+  $("records").innerHTML =
+
+    `
+    <div class="error">
+
+      <b>
+        OW Monitoring Portal
+      </b>
+
+      <br><br>
+
+      ${esc(message)}
+
+    </div>
+    `;
+
+}
+
+
+/* =========================================================
+   FILTER BUTTONS
+   ========================================================= */
 
 document
-  .querySelectorAll(".filter")
-  .forEach(button => {
+  .querySelectorAll(
+    ".filter"
+  )
+  .forEach(
+    button => {
 
-    button.addEventListener(
-      "click",
-      function() {
+      button.addEventListener(
+        "click",
+        () => {
 
-        document
-          .querySelectorAll(".filter")
-          .forEach(
-            b =>
-              b.classList.remove(
-                "active"
-              )
-          );
-
-
-        this.classList.add(
-          "active"
-        );
-
-
-        currentFilter =
-          this.dataset.filter;
+          document
+            .querySelectorAll(
+              ".filter"
+            )
+            .forEach(
+              item =>
+                item.classList
+                  .remove(
+                    "active"
+                  )
+            );
 
 
-        render();
-
-      }
-    );
-
-  });
+          button.classList
+            .add("active");
 
 
-searchEl.addEventListener(
-  "input",
-  render
-);
+          filter =
+            button.dataset.filter;
 
 
-refreshEl.addEventListener(
-  "click",
-  loadOnline
-);
+          renderRecords();
+
+        }
+      );
+
+    }
+  );
 
 
-document
-  .getElementById("close")
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+$("search")
+  .addEventListener(
+    "input",
+    renderRecords
+  );
+
+
+/* =========================================================
+   REFRESH
+   ========================================================= */
+
+$("refresh")
+  .addEventListener(
+    "click",
+    fetchOnline
+  );
+
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
+
+$("close")
   .addEventListener(
     "click",
     closeDetail
   );
 
 
-overlay.addEventListener(
-  "click",
-  function(e) {
+/* =========================================================
+   CLOSE BY CLICKING OUTSIDE
+   ========================================================= */
 
-    if (
-      e.target === overlay
-    ) {
+$("overlay")
+  .addEventListener(
+    "click",
+    event => {
 
-      closeDetail();
+      if(
+        event.target ===
+        $("overlay")
+      ){
+
+        closeDetail();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   ONLINE EVENT
+   ========================================================= */
+
+window.addEventListener(
+  "online",
+  () => {
+
+    setConnection(true);
+
+    fetchOnline();
+
+  }
+);
+
+
+/* =========================================================
+   OFFLINE EVENT
+   ========================================================= */
+
+window.addEventListener(
+  "offline",
+  () => {
+
+    setConnection(false);
+
+    loadCache();
+
+  }
+);
+
+
+/* =========================================================
+   WHEN USER RETURNS TO APP
+   ========================================================= */
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+
+    if(
+      document.visibilityState ===
+      "visible"
+    ){
+
+      if(
+        navigator.onLine
+      ){
+
+        fetchOnline();
+
+      }else{
+
+        loadCache();
+
+      }
 
     }
 
@@ -3023,83 +3535,17 @@ overlay.addEventListener(
 
 
 /* =========================================================
-   ONLINE / OFFLINE DETECTION
-========================================================= */
-
-window.addEventListener(
-  "online",
-  function() {
-
-    showOnline();
-
-    connectionText.textContent =
-      "ONLINE • SYNCING";
-
-    loadOnline();
-
-  }
-);
-
-
-window.addEventListener(
-  "offline",
-  function() {
-
-    showOffline();
-
-    connectionText.textContent =
-      "OFFLINE • CACHED DATA";
-
-    loadOfflineData();
-
-  }
-);
-
-
-/* =========================================================
-   START
-========================================================= */
-
-if (
-  navigator.onLine
-) {
-
-  loadOnline();
-
-}
-
-else {
-
-  const cached =
-    loadOfflineData();
-
-
-  showOffline();
-
-
-  if (!cached) {
-
-    showError(
-      "Offline ka pero wala pang saved monitoring data."
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   AUTO SYNC
-========================================================= */
+   AUTO REFRESH EVERY 60 SECONDS
+   ========================================================= */
 
 setInterval(
-  function() {
+  () => {
 
-    if (
+    if(
       navigator.onLine
-    ) {
+    ){
 
-      loadOnline();
+      fetchOnline();
 
     }
 
@@ -3109,48 +3555,51 @@ setInterval(
 
 
 /* =========================================================
-   RETURN TO APP
-========================================================= */
+   INITIAL LOAD
+   ========================================================= */
 
-document.addEventListener(
-  "visibilitychange",
-  function() {
+if(
+  loadCache()
+){
 
-    if (
-      document.visibilityState ===
-      "visible" &&
-      navigator.onLine
-    ) {
+  /*
+   Cached data appears immediately.
+   Then update online.
+  */
 
-      loadOnline();
+  if(
+    navigator.onLine
+  ){
 
-    }
+    setConnection(true);
+
+    fetchOnline();
+
+  }else{
+
+    setConnection(false);
 
   }
-);
 
+}
 
-/* =========================================================
-   ERROR
-========================================================= */
+else{
 
-function showError(message) {
+  if(
+    navigator.onLine
+  ){
 
-  recordsEl.innerHTML = `
+    fetchOnline();
 
-    <div class="error">
+  }else{
 
-      <strong>
-        Connection Notice
-      </strong>
+    setConnection(false);
 
-      <br><br>
+    showError(
+      "Offline ang device at wala pang saved records. Buksan muna ang portal habang online para ma-save ang records."
+    );
 
-      ${escapeHTML(message)}
-
-    </div>
-
-  `;
+  }
 
 }
 
